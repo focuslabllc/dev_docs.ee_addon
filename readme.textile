@@ -4,9 +4,11 @@ Dev Docs was born from a desire to have project-specific, developer-based docume
 
 At Focus Lab we have a file in each project's repository root that is meant only for developers. This file is in Textile formatting (like this readme file) and is mean to be the primary source of information to get "up to speed" on the project. You can learn more about our documentation practices in "our documentation article on EE Insider":http://eeinsider.com/articles/the-dreaded-documentation/.
 
-Dev Docs will parse the Textile-formatted documentation file into a multi-page Control Panel experience. The documentation is cached in the database to speed up page loads while reviewing the docs. If the documentation ever gets updated, the cache is automagicaly cleared and the docs are updated in the database.
+Dev Docs will parse the Textile-formatted documentation file into a multi-page Control Panel experience. Each "page" is determined by each "h1. Title" section of the document. The documentation is cached in the database to speed up page loads while reviewing the docs. If the documentation ever gets updated, the cache is automagicaly cleared and the docs are updated in the database.
 
-Included in this download is the sample file that is referenced in our EE Insider article and in the embedded slides there.
+Included in this download is the sample file that is referenced in our EE Insider article and in the embedded slides there. Below you can see how TextMate renders the flat file and how Dev Docs renders the same exact file without any extra effort from the developers.
+
+!http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-2.jpg!
 
 !http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-1.jpg!
 
@@ -29,7 +31,7 @@ h2. To Do
 EE's styling of content within these pages generally sucks. After all, it's but built to render content in a pretty way. It's built for system messages, form fields and tabular data. We should be adding some nice styles to render the content better soon.
 # *Settings*
 File path settings (among other things) will eventually not be hard coded into the add-on
-# *Other goodies*s
+# *Other goodies*
 Wait and see...
 
 
