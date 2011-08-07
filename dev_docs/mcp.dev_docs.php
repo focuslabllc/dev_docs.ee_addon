@@ -119,6 +119,10 @@ class Dev_docs_mcp {
 		 */
 		$current_page = $this->_EE->dev_docs_model->get_page_contents($this->_EE->input->get('docs_page'));
 		
+		// Some custom styles for better content display
+		$theme_url = $this->_EE->config->item('theme_folder_url') . 'third_party/dev_docs/';
+		$this->_EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="' . $theme_url . 'dev_docs.css" />');
+		
 		$this->_EE->cp->set_variable('cp_page_title', $current_page->heading);
 		$this->_EE->cp->set_right_nav($menu_array);
 		
