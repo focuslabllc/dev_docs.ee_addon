@@ -5,11 +5,82 @@ These notes are intended to be only for the developer(s) on the project.
 ---
 
 
+h1. Style Samples
+
+This is a small paragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+h2. This is a title, H2
+
+This is a small paragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+|^.
+|_. Label|_. Short Name|_. Type|
+|-.
+|Blog Intro|blog_intro|Textarea|
+|Blog Body|blog_body|Wygwam|
+|Leading Image|blog_leading_image|File|
+|^.
+|_. Second Label|_. Short Name|_. Type|
+|-.
+|Search excerpt|blog_search_excerpt|Textarea|
+
+
+h3. This is a subhead, H3
+
+p{color:red}. This sentence used the Textile style application to turn the text red directly within the docs file. Nothing special beyond saying @p{color:red}.@
+
+h4{color:green}. Heading 4
+
+h5. Heading 5
+
+h6. Heading 6
+
+bq. This is a block quote. I'll admit it's not the most exciting block quote ever devised.
+
+Simple list:
+
+#{color:blue} one
+# two
+# three
+
+Multi-level list:
+
+# one
+## aye
+## bee
+## see
+# two
+## x
+## y
+# three
+
+Mixed list:
+
+* Point one
+* Point two
+## Step 1
+## Step 2
+## Step 3
+* Point three
+** Sub point 1
+** Sub point 2
+
+
+h3. Coding
+
+This <code>is some code, "isn't it"</code>. Watch those quote marks! Now for some pre-formatted text:
+
+<pre><code>$text = str_replace("<p>%::%</p>","",$text);
+$text = str_replace("%::%</p>","",$text);
+$text = str_replace("%::%","",$text);
+</code></pre>
+
+
 h1. Site Overview
 
 This file contains details on the workings of EE for mysite.com. Every template is also documented with helpful information regarding the EE setup. Developers on the project include the full dev team at "Focus Lab, LLC":http://focuslabllc.com
 
-*Naming Convention*
+h2. Naming Conventions
 
 Across the Channels, Custom Fields and Upload Directories we use the same naming convention. It it to keep things organized and as predictable as possible. The convention uses a "prefix" of the Channel short name in front of any other words. For example:
 
@@ -23,7 +94,7 @@ Across the Channels, Custom Fields and Upload Directories we use the same naming
 
 This convention is used when applicable in Status Groups, Categories & closely related Channels as well.
 
-*Version Control*
+h2. Version Control
 
 Files for this site are kept in a Git repository. All files are versioned back to original static site preview with the client. Developers check in to Beanstalk and we deploy from Beanstalk to all non-local environments (development, staging & production). Ignored files include .htaccess, caches & upload directories. See the ./.gitignore file for the full ignore list.
 
@@ -32,26 +103,28 @@ h1. Server Environments
 
 mysite.com is running in 4 environments. Local copies are on each independent developer's computer. There is a private Development and private Staging environment and a public Production environment.
 
-+*Local*+
+h2. Environments
+
+h3. Local
 
 * Specific to each developer.
 * Developers are encouraged to run the latest stable versions of PHP and MySQL
 
-+*Development*+
+h3. Development
 
 * Located at dev.mysite.com
 * PHP version 5.2.14
 * MySQL version 5.0.84
 * Apache 2.2.17
 
-+*Staging*+
+h3. Staging
 
 * Located at staging.mysite.com
 * PHP version 5.3.2
 * MySQL version 5.0.91
 * Apache 2.2.17
 
-+*Production*+
+h3. Production
 
 * Located at mysite.com
 * PHP version 5.3.2
@@ -72,7 +145,7 @@ h1. Channels & Related Groups
 
 Our site currently has 2 Channels using a total of 1 Category Group. Each Channel has its own Custom Field Group. Every Channel uses the default Status Group.
 
-+*Pages*+
+h2. Pages
 
 This Channel is for our site's static content. It houses things like About Us and Contact. 
 
@@ -86,7 +159,7 @@ This Channel is for our site's static content. It houses things like About Us an
 
 The 3rd Party Add-on "Structure":http://buildwithstructure.com is in large use for our Pages Channel. We use it to build the hierarchy of Pages and also the HTML Titles, Menus & Breadcrumbs on the front-end. Pages are primarily run through the template site/_pages (configurable per page and within the Structure settings). There are a few pages that have their own custom templates which is mentioned below in the Templating section of this document.
 
-+*Blog*+
+h2. Blog
 
 This Channel is (obviously) the site's blog. It is a pretty generic blog setup.
 
@@ -115,7 +188,9 @@ h2. Sample Table
 
 Sample custom field table:
 
+|^.
 |_. Label|_. Short Name|_. Type|
+|-.
 |Blog Intro|blog_intro|Textarea|
 |Blog Body|blog_body|Wygwam|
 |Leading Image|blog_leading_image|File|

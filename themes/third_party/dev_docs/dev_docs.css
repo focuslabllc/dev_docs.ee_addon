@@ -1,0 +1,146 @@
+/*
+ * 
+ */
+
+
+#dev_docs * { font-family: "Helvetica Neue"; }
+
+/*******************************
+    Headings
+*******************************/
+
+#dev_docs h2 {
+	font-size: 1.8em;
+	text-shadow: 0 1px 0 #fff;
+	margin: 15px 0;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #CDD1D6;
+	box-shadow: 0px 1px 0px #fff;
+}
+
+#dev_docs h3 {
+	text-shadow: 0 1px 0 #fff;
+	margin: 15px 0;
+}
+
+#dev_docs h4 { margin-bottom: 10px; font-size: 1.2em; }
+#dev_docs h5 { margin-bottom: 10px; font-size: 1.1em; }
+#dev_docs h6 { margin-bottom: 10px; font-size: 1em; }
+
+/* End Headings */
+
+
+/*******************************
+    Other block level elements
+*******************************/
+
+#dev_docs p { font-size: 1.1em; line-height: 1.3em; }
+
+#dev_docs blockquote {
+	margin: 20px 0;
+	padding: 10px 20px;
+	border-left: 7px solid #D5DAE2;
+	border-left: 7px solid #D5DAE2;
+	box-shadow: -1px 0 0 #C7CDD7;
+}
+#dev_docs blockquote p {
+	margin: 0px !important;
+	font: italic normal normal 1.3em/1.5em Georgia, Arial, sans-serif;
+}
+
+#dev_docs ol, #dev_docs ul { margin: 10px 10px 10px 40px; }
+#dev_docs li { margin: 2px 0; }
+#dev_docs ol ol, #dev_docs ul ul { margin: 5px 5px 5px 15px; }
+#dev_docs ul { list-style: disc; }
+
+/* End Other block level elements */
+
+
+/*******************************
+    Inline elements
+*******************************/
+
+
+
+/* End Inline elements */
+
+
+
+/*******************************
+    Table Styles
+*******************************/
+
+#dev_docs table {
+	position: relative;
+	width: 100%;
+	font-size: 1em;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+#dev_docs table thead {
+	padding-bottom: 6px;
+	background: #93A5B1;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ABB7C3), to(#93A5B1));
+	box-shadow: 0 -11px 0 red;
+}
+#dev_docs table th {
+	padding: 6px;
+	font-size: 12px;
+	color: #fff;
+	text-shadow: 0 1px 0 #6E6E6E;
+	text-align: left;
+	text-transform: uppercase;
+	font-weight: bold;
+	border: 1px solid #C3C9D1;
+	border-top-color: #E1EDF8;
+/*	box-shadow: 0 -1px 0 #C3C9D1;*/
+}
+#dev_docs table td {
+	vertical-align: middle;
+	padding: 8px 6px;
+	line-height: 1.4em;
+	border: 1px solid #C3C9D1;
+	border-top: 0px; 
+}
+#dev_docs table tr:nth-child(2n+2) { background: #E5EAEF; color: #475158; }
+#dev_docs table td p { margin-bottom: 0px; }
+#dev_docs table td ul { margin: 0; list-style: none; border-bottom: 1px solid #e2e2e2; padding-bottom: 6px; }
+#dev_docs table td ul li { padding: 3px 0; }
+
+#dev_docs table td.align_top { vertical-align: top; }
+#dev_docs table td.align_bottom { vertical-align: bottom; }
+
+/* End Table Styles */
+
+
+/*******************************
+    Code Blocks and inline code
+*******************************/
+
+/*#dev_docs code { background: #E5EAEF; padding: 2px; font}*/
+#dev_docs pre, #dev_docs code {
+	font-family: Inconsolata, Menlo, Monaco, "Andale Mono" courier;
+	background: #fff;
+	text-shadow: 0px 1px 0px #fff;
+}
+#dev_docs code.inline { padding: 2px 4px; }
+#dev_docs pre, #dev_docs code.block {
+	overflow-x: auto;
+	background: #fff;
+	font-size: 10pt;
+	border: 1px solid #ddd;
+	padding: 10px;
+	line-height: 130%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+}
+#dev_docs code.block { white-space: pre; }
+#dev_docs pre::-webkit-scrollbar, #dev_docs code.block::-webkit-scrollbar { height: 7px; width: 7px; }
+#dev_docs pre::-webkit-scrollbar-thumb, #dev_docs code.block::-webkit-scrollbar-thumb { background: #ddd; -webkit-border-radius: 3px; }
+#dev_docs .wrapped .gist .gist-file .gist-data pre { padding: 10px !important; font-size: 10pt !important; }
+#dev_docs .wrapped .gist .gist-file { -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+#dev_docs .wrapped .gist-meta { font-size: 8pt !important; }
+
+
+/* End Code Blocks and inline code */
+
