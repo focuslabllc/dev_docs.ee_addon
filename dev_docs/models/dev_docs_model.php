@@ -174,10 +174,13 @@ class Dev_docs_model {
 			                     ->get('exp_dd_doc_sections')
 			                     ->row();
 		} else {
-			return $this->_EE->db->limit(1)
-			                     ->where('short_name', $short_name)
-			                     ->get('exp_dd_doc_sections')
-			                     ->row();
+			$result = $this->_EE->db->limit(1)
+			                        ->where('short_name', $short_name)
+			                        ->get('exp_dd_doc_sections')
+			                        ->row();
+			// If we have a short_name value but it doesn't match a page, return
+			// the first page by running this method again with a parameter of FALSE
+			return (count($result) == 0) ? $this->get_page_contents(FALSE) : $result ;
 		}
 	}
 	// End function get_page_contents()

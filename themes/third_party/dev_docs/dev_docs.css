@@ -36,6 +36,19 @@
 
 #dev_docs p { font-size: 1.1em; line-height: 1.3em; }
 
+#dev_docs p.notice {
+	color: #000;
+	margin: 20px 10px;
+	background: #fcfdbe;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#FAFDE0), to(#fcfdbe));;
+	border: 1px solid #8d8d74;
+	border-top-color: #fff;
+	padding: 9px 10px 10px;
+	border-radius: 3px;
+	box-shadow: 1px 1px 0 #fff;
+	box-shadow: 0 -1px 0 #8d8d74;
+}
+
 #dev_docs blockquote {
 	margin: 20px 0;
 	padding: 10px 20px;
@@ -126,7 +139,7 @@
 #dev_docs code.inline { padding: 2px 4px; }
 #dev_docs pre, #dev_docs code.block {
 	overflow-x: auto;
-	background: #fff;
+	background: #fff !important;
 	font-size: 10pt;
 	border: 1px solid #ddd;
 	padding: 10px;
@@ -137,10 +150,19 @@
 #dev_docs code.block { white-space: pre; }
 #dev_docs pre::-webkit-scrollbar, #dev_docs code.block::-webkit-scrollbar { height: 7px; width: 7px; }
 #dev_docs pre::-webkit-scrollbar-thumb, #dev_docs code.block::-webkit-scrollbar-thumb { background: #ddd; -webkit-border-radius: 3px; }
-#dev_docs .wrapped .gist .gist-file .gist-data pre { padding: 10px !important; font-size: 10pt !important; }
-#dev_docs .wrapped .gist .gist-file { -webkit-border-radius: 3px; -moz-border-radius: 3px; }
-#dev_docs .wrapped .gist-meta { font-size: 8pt !important; }
+#dev_docs .gist .gist-file .gist-data pre { padding: 10px !important; font-size: 10pt !important; }
+#dev_docs .gist .gist-file { -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+#dev_docs .gist-meta { font-size: 8pt !important; }
 
 
 /* End Code Blocks and inline code */
 
+
+hr {
+	border: none;
+	display: block;
+	margin: 30px 10%;
+	height: 0px;
+	border-top: 1px solid #CDD1D6;
+	border-bottom: 1px solid #fff;
+}

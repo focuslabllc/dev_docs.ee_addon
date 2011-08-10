@@ -21,7 +21,7 @@
  * Also define the version constant to be
  * used in the extension and accessory files
  */
-$config['dd:version'] = "0.1.1";
+$config['dd:version'] = "0.1.4";
 if ( ! defined('DD_VERSION'))
 {
 	define('DD_VERSION',$config['dd:version']);
@@ -48,6 +48,26 @@ $config['dd:module_data'] = array(
 	'module_version'     => $config['dd:version'],
 	'has_cp_backend'     => 'y',
 	'has_publish_fields' => 'n'
+);
+
+
+/**
+ * @var    array   Default extension settings
+ */
+$config['dd:default_settings'] = array();
+
+
+/**
+ * @var    array   Extension hook setup (multi-dimensional for multiple hooks)
+ */
+$config['dd:ext_hook'] = array(
+	'class'     => 'Dev_docs_ext',
+	'method'    => 'cp_menu_array',
+	'hook'      => 'cp_menu_array',
+	'settings'  => serialize($config['dd:default_settings']),
+	'priority'  => 10,
+	'version'   => $config['dd:version'],
+	'enabled'   => 'y'
 );
 
 
