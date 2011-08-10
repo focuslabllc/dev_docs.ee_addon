@@ -55,7 +55,7 @@ class Docs_library
 		$docs = file_get_contents($filepath);
 		
 		// Strip out the first h1 section which is only needed when opening the file directly
-		$docs = preg_replace('/h1\..+---/s', '', $docs);
+		$docs = preg_replace('/h1\..+-{3}/s', '', $docs);
 		
 		// "explode" the docs into sections based on instances of h1 lines
 		$sections = preg_split("/(h1\.\s.+)/", $docs, NULL, PREG_SPLIT_DELIM_CAPTURE);

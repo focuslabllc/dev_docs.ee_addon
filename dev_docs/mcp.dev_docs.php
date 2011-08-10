@@ -43,6 +43,7 @@ class Dev_docs_mcp {
 		$this->_EE =& get_instance();
 		
 		// load some goodies
+		$this->_EE->load->add_package_path(PATH_THIRD . 'dev_docs');
 		$this->_EE->load->config('dev_docs');
 		$this->_EE->load->model('dev_docs_model');
 		$this->_EE->load->library('Docs_library');
@@ -73,8 +74,6 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		// $filepath = $_SERVER['DOCUMENT_ROOT'] . '/../dev-docs.textile';
-		
 		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
 		
 		if ( ! file_exists($filepath))

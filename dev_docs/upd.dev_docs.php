@@ -56,6 +56,7 @@ class Dev_docs_upd {
 	public function install() 
 	{
 		$this->_install_module();
+		$this->_install_extension();
 		return TRUE;
 	}
 	// End function install()
@@ -73,6 +74,7 @@ class Dev_docs_upd {
 	public function uninstall()
 	{
 		$this->_uninstall_module();
+		$this->_uninstall_extension();
 		return TRUE;
 	}
 	// End function uninstall()
@@ -131,6 +133,22 @@ class Dev_docs_upd {
 	
 	
 	/**
+	 * Install extension
+	 *
+	 * @access     private
+	 * @author     Erik Reagan <erik@focuslabllc.com>
+	 * @return     void
+	 */
+	private function _install_extension()
+	{
+		$this->_EE->Dev_docs_setup_model->insert_extension($this->_EE->config->item('dd:ext_hook'));
+	}
+	// End function _install_extension()
+	
+	
+	
+	
+	/**
 	 * Uninstall module
 	 *
 	 * @access     private
@@ -143,6 +161,22 @@ class Dev_docs_upd {
 		$this->_EE->Dev_docs_setup_model->drop_dd_tables();
 	}
 	// End function _uninstall_module()
+	
+	
+	
+	
+	/**
+	 * Uninstall extension
+	 *
+	 * @access     private
+	 * @author     Erik Reagan <erik@focuslabllc.com>
+	 * @return     void
+	 */
+	private function _uninstall_extension()
+	{
+		$this->_EE->Dev_docs_setup_model->delete_extension();
+	}
+	// End function _uninstall_extension()
 	
 }
 // End class Dev_docs_upd

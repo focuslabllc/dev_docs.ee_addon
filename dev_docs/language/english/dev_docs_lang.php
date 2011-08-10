@@ -20,7 +20,10 @@ $lang = array(
 	'Dev Docs',
 	
 	'dev_docs_module_description' =>
-	'Parse the project Developer Documentation within the CP for easy reading'
+	'Parse the project Developer Documentation within the CP for easy reading',
+	
+	'nav_dev_docs' =>
+	'Dev Docs'
 	
 );
 

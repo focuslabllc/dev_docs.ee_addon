@@ -9,8 +9,11 @@ Dev Docs will parse the Textile-formatted documentation file into a multi-page C
 Included in this download is the sample file that is referenced in our EE Insider article and in the embedded slides there. Below you can see how TextMate renders the flat file and how Dev Docs renders the same exact file without any extra effort from the developers.
 
 !http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-2.jpg!
-
 !http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-3.jpg!
+
+A screenshot from one of our actual documentation pages on a project (slightly altered)
+
+!http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-4.jpg!
 
 
 h2. Compatibility
