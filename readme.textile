@@ -52,7 +52,13 @@ Wait and see...
 
 h2. Change Log
 
-+*August 7th, 2011: 0.1.1*+
++*August 9th, 2011: 0.1.4*+
+
+* Added Dev Docs to the CP menu (by way of the cp_menu_array hook)
+* Updated styles a bit
+* Fixed a bug where a page might not load if a short_name is provided but invalid
+
+*August 7th, 2011: 0.1.1*
 
 * Added some initial base style overrides
 * Added new Style sample section/page to sample document
