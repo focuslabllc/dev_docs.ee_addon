@@ -74,7 +74,8 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
+		$filepath = PATH_THEMES . 'third_party/dev_docs/documentation/sample_docs.textile';
+		//$filepath = PATH_THEMES . 'third_party/dev_docs/documentation/readme.markdown';
 		
 		if ( ! file_exists($filepath))
 		{
@@ -91,17 +92,20 @@ class Dev_docs_mcp {
 		 * approach to caching the file contents it won't have to read and parse through the textile each
 		 * time the page loads in the module.
 		 */
-		if (filemtime($filepath) > $this->_EE->dev_docs_model->cached_timestamp())
+		if (filemtime($filepath) > $this->_EE->dev_docs_model->caching_data('timestamp') || $filepath != $this->_EE->dev_docs_model->caching_data('filepath'))
 		{
 			// save new timestamp to DB
-			$this->_EE->dev_docs_model->save_timestamp(filemtime($filepath));
+			$this->_EE->dev_docs_model->save_timestamp(filemtime($filepath),$filepath);
 			// delete doc rows
 			$this->_EE->dev_docs_model->clear_current_docs();
-			// Re-parse and re-save the docs
+            // Re-parse and re-save the docs
 			$this->_EE->docs_library->parse_docs_file($filepath);
 		}
 		
 		
+
+            
+            
 		// Query to get our menu titles
 		$pages = $this->_EE->dev_docs_model->get_pages();
 		foreach ($pages as $page) {
