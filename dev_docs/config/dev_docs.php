@@ -36,8 +36,13 @@ $config['dd:description'] = "Parse the project Developer Documentation within th
 
 /**
  * @var    string   URL base for inner add-on linking
+ * 
+ * We use the conditional so that the config value is only set within the CP
  */
-$config['dd:mod_url_base'] = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dev_docs';
+if (defined('BASE'))
+{
+	$config['dd:mod_url_base'] = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dev_docs';
+}
 
 
 /**
