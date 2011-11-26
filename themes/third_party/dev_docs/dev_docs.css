@@ -90,11 +90,10 @@
 	border-spacing: 0px;
 	border-collapse: collapse;
 }
-#dev_docs table thead {
+#dev_docs table thead, #dev_docs table th {
 	padding-bottom: 6px;
 	background: #93A5B1;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#ABB7C3), to(#93A5B1));
-	box-shadow: 0 -11px 0 red;
 }
 #dev_docs table th {
 	padding: 6px;
@@ -106,7 +105,6 @@
 	font-weight: bold;
 	border: 1px solid #C3C9D1;
 	border-top-color: #E1EDF8;
-/*	box-shadow: 0 -1px 0 #C3C9D1;*/
 }
 #dev_docs table td {
 	vertical-align: middle;
