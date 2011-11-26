@@ -70,7 +70,8 @@ class Dev_docs_mcp {
 	{
 		
 		// Start off with a consistent breadcrumb addition
-		$this->_EE->cp->set_breadcrumb($this->_url_base, lang('dev_docs_module_name'));
+		$name = ($this->_EE->config->item('dev_docs_cp_name')) ? $this->_EE->config->item('dev_docs_cp_name') : lang('dev_docs_module_name') ;
+		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
