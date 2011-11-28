@@ -132,8 +132,10 @@ class Dev_docs_setup_model {
 		{
 			$table1_fields = array(
 				'id'         => array('type' => 'INT', 'constraint' => '10', 'unsigned' => TRUE, 'auto_increment' => TRUE),
-				'heading'    => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'short_name' => array('type' => 'VARCHAR', 'constraint' => '255'),
+				'file_name'  => array('type' => 'VARCHAR', 'constraint' => '255'),
+				'sub_dir'    => array('type' => 'VARCHAR', 'constraint' => '255'),
+				'heading'    => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'content'    => array('type' => 'TEXT')
 			);
 			$this->_EE->dbforge->add_field($table1_fields);
@@ -199,6 +201,7 @@ class Dev_docs_setup_model {
 	public function drop_dd_tables()
 	{
 		// deprecated table
+		// @todo - remove dd_dev_docs from method before 1.0 release
 		if ($this->_EE->db->table_exists('dd_dev_docs'))
 		{
 			$this->_EE->dbforge->drop_table('dd_dev_docs');

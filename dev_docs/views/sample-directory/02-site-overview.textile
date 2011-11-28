@@ -1,0 +1,21 @@
+h1. Site Overview
+
+This file contains details on the workings of EE for mysite.com. Every template is also documented with helpful information regarding the EE setup. Developers on the project include the full dev team at "Focus Lab, LLC":http://focuslabllc.com
+
+h2. Naming Conventions
+
+Across the Channels, Custom Fields and Upload Directories we use the same naming convention. It it to keep things organized and as predictable as possible. The convention uses a "prefix" of the Channel short name in front of any other words. For example:
+
+* Channel name is "Pages"
+* 3 custom fields for Meta Description, Primary Image & Body Content
+* 1 Upload directory for the images
+* My names would look something like:
+** Channel short name: "pages"
+** Custom fields: "pages_meta_description", "pages_primary_image", & "pages_body_content"
+** Upload Directory: "Pages Image Uploads"
+
+This convention is used when applicable in Status Groups, Categories & closely related Channels as well.
+
+h2. Version Control
+
+Files for this site are kept in a Git repository. All files are versioned back to original static site preview with the client. Developers check in to Beanstalk and we deploy from Beanstalk to all non-local environments (development, staging & production). Ignored files include .htaccess, caches & upload directories. See the ./.gitignore file for the full ignore list.

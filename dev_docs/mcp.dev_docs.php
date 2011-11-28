@@ -73,13 +73,12 @@ class Dev_docs_mcp {
 		$name = ($this->_EE->config->item('dev_docs_cp_name')) ? $this->_EE->config->item('dev_docs_cp_name') : lang('dev_docs_module_name') ;
 		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
-		// Grab our developer documentation. Expects a textile formatted document
-		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
+		// Grab our developer documentation. Will be a setting / config override down the road.
+		$file_path = APPPATH . 'third_party/dev_docs/views/sample-directory/';
 		
-		if ( ! file_exists($filepath))
+		if ( ! file_exists($file_path))
 		{
-			show_error('The developer documentation file (' . $filepath . ') does not exist.
+			show_error('The developer documentation file (' . $file_path . ') does not exist.
 			            Eventually this will be a specific view file but it\'s early in the add-on\'s development.');
 		}
 		
@@ -89,22 +88,22 @@ class Dev_docs_mcp {
 		 * Check the modification time on the flat file against the cached modification time. We save
 		 * the last modification time in the database for this conditional. If the file has been updated
 		 * since the last cache then we'll re-parse the file and save all sections to the DB. With this
-		 * approach to caching the file contents it won't have to read and parse through the textile each
-		 * time the page loads in the module.
+		 * approach to caching the file contents it won't have to read and parse through the file(s) each
+		 * time a page loads in the module.
 		 */
-		if (filemtime($filepath) > $this->_EE->dev_docs_model->cached_timestamp())
+		if (filemtime($file_path) !== $this->_EE->dev_docs_model->get_setting('timestamp'))
 		{
-			// save new timestamp to DB
-			$this->_EE->dev_docs_model->save_timestamp(filemtime($filepath));
 			// delete doc rows
 			$this->_EE->dev_docs_model->clear_current_docs();
 			// Re-parse and re-save the docs
-			$this->_EE->docs_library->parse_docs_file($filepath);
+			$this->_EE->docs_library->parse_docs($file_path);
+			// save new timestamp to DB
+			$this->_EE->dev_docs_model->save_setting('timestamp', filemtime($file_path));
 		}
 		
 		
 		// Query to get our menu titles
-		$pages = $this->_EE->dev_docs_model->get_pages();
+		$pages = $this->_EE->dev_docs_model->get_pages('menu');
 		foreach ($pages as $page) {
 			$menu_array[$page['heading']] = $this->_url_base . AMP . 'docs_page=' . $page['short_name'];
 		}
@@ -119,6 +118,16 @@ class Dev_docs_mcp {
 		 */
 		$current_page = $this->_EE->dev_docs_model->get_page_contents($this->_EE->input->get('docs_page'));
 		
+		// Make sure we have pages to work with. If not, we'll display an error message
+		if (empty($current_page))
+		{
+			show_error("Your documentation doesn't seem to have any valid content. Check your document(s) again.
+			            <br><pre>" . $file_path . "</pre>");
+		}
+		
+		// Build our submenu if applicable
+		$current_submenu = $this->_EE->dev_docs_model->get_submenu($current_page->sub_dir, $current_page->file_name);
+		
 		// Some custom styles for better content display
 		$theme_url = $this->_EE->config->item('theme_folder_url') . 'third_party/dev_docs/';
 		$this->_EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="' . $theme_url . 'dev_docs.css" />');
@@ -126,6 +135,7 @@ class Dev_docs_mcp {
 		$this->_EE->cp->set_variable('cp_page_title', $current_page->heading);
 		$this->_EE->cp->set_right_nav($menu_array);
 		
+		$data['submenu'] = $current_submenu;
 		$data['content'] = $current_page->content;
 		
 		return $this->_EE->load->view('cp_index', $data, TRUE);

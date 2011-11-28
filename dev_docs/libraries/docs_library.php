@@ -47,23 +47,101 @@ class Docs_library
 	 * @access     public
 	 * @return     void
 	 */
-	function parse_docs_file($filepath = FALSE)
+	function parse_docs($file_path = FALSE)
 	{
 		
-		// No need to go any further without a valid filepath
-		if ( ! $filepath)
+		// No need to go any further without a valid file_path
+		if ( ! $file_path)
 		{
 			return;
 		}
 		
+		// Determine if we're working with a file or a directory
+		$type = (is_dir($file_path)) ? 'dir' : 'file' ;
+		
+		// save docs type to settings table (file vs directory)
+		$this->_EE->dev_docs_model->save_setting('doc_type', $type);
+		
+		$type_method = 'parse_' . $type;
+		$this->$type_method($file_path);
+		
+	}
+	// End function parse_docs_file()
+	
+	
+	
+	
+	/**
+	 * @todo - clean up this method. Yuck!
+	 */
+	public function parse_dir($file_path = FALSE, $depth = 1, $sub_dir = '', $depth_limit = 2)
+	{
+		if ( ! is_dir($file_path))
+		{
+			show_error('The path provided is not a directory.');
+		}
+		
+		// For our recurrsion we shouldn't dive deeper than our depth limit
+		if ($depth_limit - $depth < 0)
+		{
+			return;
+		}
+		
+		// Load CodeIgnite's Directory helper if it hasn't been loaded yet
+		if ( ! function_exists('directory_map'))
+		{
+			$this->_EE->load->helper('directory');
+		}
+		
+		$map = directory_map($file_path, $depth_limit - $depth);
+		
+		// echo '<pre>';
+		// print_r($map);
+		// exit;
+		
+		foreach ($map as $key => $value) {
+			// Create a depth integer based on the current depth plus 1
+			$next_depth = $depth + 1;
+			// Build our path for re-use a few times
+			$new_path = $this->_EE->functions->remove_double_slashes($file_path . '/' . $value);
+			
+			// Loop through our key=>value stores to see if they are files or directories
+			// If they are directories, we process them in this method recursively with a new depth
+			if (is_array($value))
+			{
+				$this->parse_dir($this->_EE->functions->remove_double_slashes($file_path . '/' . $key), $next_depth, $key);
+			} elseif(is_dir($new_path)) {
+				$this->parse_dir($new_path, $next_depth, $value);
+			} else {
+				$this->parse_file($new_path, $value, $sub_dir);
+			}
+		}
+		
+	}
+	// End function parse_dir()
+	
+	
+	
+	
+	/**
+	 * @todo - cache individual files by path+file_name?
+	 * 
+	 * @return    array    parsed docs array with headings and content
+	 */
+	public function parse_file($file_path = FALSE, $file_name = '', $sub_dir = '')
+	{
+		
 		// Get the file extension of our documentation file
-		$file_ext = substr(strrchr($filepath,'.'), 1);
+		$file_ext = substr(strrchr($file_path,'.'), 1);
 		
 		// Make sure the filetype is supported and the parser is built in to this library
 		if ( ! array_key_exists($file_ext, $this->parsers) OR ! method_exists(__CLASS__, 'parse_' . $file_ext))
 		{
 			show_error('The file type you have specified (' . $file_ext . ') is not currently supported.');
 		}
+		
+		// Create empty arrays for headings and content before parsing
+		$headings = $content = array();
 		
 		
 		/**
@@ -73,7 +151,7 @@ class Docs_library
 		 * it out and send it along to our model
 		 */
 		$parse_type = 'parse_' . $file_ext;
-		$docs = $this->$parse_type($filepath);
+		$docs = $this->$parse_type($file_path);
 		
 		
 		// Strip out the first h1 section which is only needed when opening the file directly
@@ -109,11 +187,28 @@ class Docs_library
 		// print_r($content);
 		// exit;
 		
-		$this->_EE->load->model('dev_docs_model');
-		$this->_EE->dev_docs_model->save_docs($headings, $content);
+		// exit(var_dump(empty($headings)));
 		
+		// If we don't have at least 1 heading and content block we're done
+		// Though, this shouldn't happen if you write your documentation correctly :)
+		if (empty($headings) OR empty($content))
+		{
+			return FALSE;
+		}
+		
+		$this->_EE->load->model('dev_docs_model');
+		$this->_EE->dev_docs_model->save_docs($headings, $content, $file_name, $sub_dir);
 	}
-	// End function parse_docs_file()
+	// End function parse_file()
+	
+	
+	
+	
+	
+	// ----------------------------------------------------------
+	// Syntax Parsers
+	// ----------------------------------------------------------
+	
 	
 	
 	
@@ -126,11 +221,11 @@ class Docs_library
 	 * @author     Erik Reagan <erik@focuslabllc.com>
 	 * @return     string
 	 */
-	public function parse_textile($filepath = FALSE)
+	public function parse_textile($file_path = FALSE)
 	{
-		require('parsers/textile/classTextile.php');
+		require_once('parsers/textile/classTextile.php');
 		$textile = new Textile();
-		$docs = file_get_contents($filepath);
+		$docs = file_get_contents($file_path);
 		
 		return $textile->TextileThis($docs);
 	}
@@ -147,10 +242,10 @@ class Docs_library
 	 * @author     Erik Reagan <erik@focuslabllc.com>
 	 * @return     string
 	 */
-	public function parse_md($filepath = FALSE)
+	public function parse_md($file_path = FALSE)
 	{
-		require('parsers/md/markdown.php');
-		$docs = file_get_contents($filepath);
+		require_once('parsers/md/markdown.php');
+		$docs = file_get_contents($file_path);
 		
 		return Markdown($docs);
 	}
@@ -170,9 +265,9 @@ class Docs_library
 	 * @author     Erik Reagan <erik@focuslabllc.com>
 	 * @return     string
 	 */
-	public function parse_html($filepath = FALSE)
+	public function parse_html($file_path = FALSE)
 	{
-		$docs = file_get_contents($filepath);
+		$docs = file_get_contents($file_path);
 		$replace_array = array('/^.+<body>/s', '/<\/body>.+$/s');
 		$docs = preg_replace($replace_array, '', $docs);
 		

@@ -33,6 +33,7 @@ class Dev_docs_model {
 	public function __construct()
 	{
 		$this->_EE =& get_instance();
+		$this->_EE->load->config('dev_docs');
 	}
 	// End function __construct()
 	
@@ -46,12 +47,17 @@ class Dev_docs_model {
 	 * @author    Erik Reagan <erik@focuslabllc.com>
 	 * @return    int
 	 */
-	public function cached_timestamp()
+	public function get_setting($key = FALSE)
 	{
-		$query = $this->_EE->db->get_where('dd_settings', array('key' => 'last_saved'));
+		if ( ! $key)
+		{
+			return FALSE;
+		}
+		
+		$query = $this->_EE->db->get_where('dd_settings', array('key' => $key));
 		return ($query->num_rows() > 0) ? $query->row()->value : 0 ;
 	}
-	// End function cached_timestamp()
+	// End function get_setting()
 	
 	
 	
@@ -61,21 +67,28 @@ class Dev_docs_model {
 	 * 
 	 * @access    public
 	 * @author    Erik Reagan <erik@focuslabllc.com>
-	 * @param     int   UNIX timestamp
+	 * @param     string   setting string
+	 * @param     string   setting value
+	 * @param     int      1|0     "is serialized"
 	 * @return    void
 	 */
-	public function save_timestamp($timestamp = 0)
+	public function save_setting($key = FALSE, $value = 0, $serialized = 0)
 	{
-		if ($this->_EE->db->get_where('dd_settings', array('key' => 'last_saved'))->num_rows() == 0)
+		if ( ! $key)
+		{
+			return FALSE;
+		}
+		
+		if ($this->_EE->db->get_where('dd_settings', array('key' => $key))->num_rows() == 0)
 		{
 			// new row
-			$this->_EE->db->insert('exp_dd_settings', array('key' => 'last_saved', 'value' => $timestamp)); 
+			$this->_EE->db->insert('exp_dd_settings', array('key' => $key, 'value' => $value, 'is_serialized' => $serialized)); 
 		} else {
 			// update row
-			$this->_EE->db->where('key', 'last_saved')->update('dd_settings', array('value' => $timestamp));
+			$this->_EE->db->where('key', $key)->update('dd_settings', array('value' => $value, 'is_serialized' => $serialized));
 		}
 	}
-	// End function save_timestamp()
+	// End function save_setting()
 	
 	
 	
@@ -113,7 +126,7 @@ class Dev_docs_model {
 	 * @param     array    "page" content
 	 * @return    void
 	 */
-	public function save_docs($headings = array(), $content = array())
+	public function save_docs($headings = array(), $content = array(), $file_name = '', $sub_dir = '')
 	{
 		
 		// A few checks first
@@ -137,9 +150,11 @@ class Dev_docs_model {
 		// Okay, let's do this
 		foreach ($headings as $key => $heading) {
 			$rows[] = array(
-				'heading'    => $heading,
 				'short_name' => url_title($heading, 'underscore', TRUE),
-				'content'    => $content[$key],
+				'file_name'  => $file_name,
+				'sub_dir'    => $sub_dir,
+				'heading'    => $heading,
+				'content'    => $content[$key]
 			);
 		}
 		
@@ -189,20 +204,126 @@ class Dev_docs_model {
 	
 	
 	/**
+	 * Get submenu for page
+	 * 
+	 * @access    public
+	 * @author    Erik Reagan <erik@focuslabllc.com>
+	 * @param     mixed   bool|string
+	 * @return    object
+	 */
+	public function get_submenu($sub_dir = FALSE, $file_name = FALSE)
+	{
+		if ( ! $sub_dir && ! $file_name)
+		{
+			return FALSE;
+		}
+		
+		if ($this->get_setting('doc_type') != 'dir')
+		{
+			return FALSE;
+		}
+		// exit(var_dump($file_name));
+		$pages = $this->_EE->db->select(array('heading', 'short_name'))
+		                       ->where('sub_dir', $sub_dir)
+		                       ->where('file_name', $file_name)
+		                       ->get('exp_dd_doc_sections');
+		// exit($this->_EE->db->last_query());
+		if ($pages->num_rows() == 0)
+		{
+			return FALSE;
+		}
+		
+		$pages = $pages->result();
+		$url_base = $this->_EE->config->item('dd:mod_url_base');
+		
+		foreach ($pages as $key => $page) {
+			$pages[$key]->url = $url_base . AMP . 'docs_page=' . $page->short_name;
+		}
+		
+		return $pages;
+		
+	}
+	// End function get_submenu()
+	
+	
+	
+	
+	/**
 	 * Get all pages
 	 * 
 	 * This is used to build the module's menu so we want
 	 * an array as a result
 	 * 
 	 * @access    public
+	 * @param     string      menu|all
 	 * @author    Erik Reagan <erik@focuslabllc.com>
 	 * @return    array
 	 */
-	public function get_pages()
+	public function get_pages($display = 'menu')
 	{
-		return $this->_EE->db->select(array('heading', 'short_name'))
-			                   ->get('exp_dd_doc_sections')
-			                   ->result_array();
+		// Get the pages from our table (all pages, even within subdirectories)
+		$pages = $this->_EE->db->select(array('heading', 'file_name', 'short_name', 'sub_dir'))
+		                       ->get('exp_dd_doc_sections')
+		                       ->result_array();
+		
+		if ($display == 'all')
+		{
+			return $pages;
+		}
+		
+		// Loop through the pages catching subdirectories and
+		// only using the first page for a subdirectory
+		$sub_directories = array();
+		foreach ($pages as $key => $page)
+		{
+			
+			// Unset any key with a pre-defined subdirectory
+			// If the subdirecory was cached then we already found
+			// the first page
+			if (in_array($page['sub_dir'], $sub_directories))
+			{
+				unset($pages[$key]);
+			}
+			
+			// Now we'll save a subdirectory if we've stumbled across one but
+			// haven't cached it yet
+			if ($page['sub_dir'] != '')
+			{
+				$sub_directories[] = $page['sub_dir'];
+			}
+			
+		}
+		// End foreach ($pages as $key => $page) {}
+		
+		
+		// If we're in "directory mode" we'll make sure we properly parse files
+		// from within directories containing multiple h1 tags in individual files
+		if ($this->get_setting('doc_type') == 'dir')
+		{
+			$file_names = array();
+			foreach ($pages as $key => $page)
+			{
+				// Unset any key with a pre-defined subdirectory
+				// If the subdirecory was cached then we already found
+				// the first page
+				if (in_array($page['file_name'], $file_names))
+				{
+					unset($pages[$key]);
+				}
+
+				// Now we'll save a subdirectory if we've stumbled across one but
+				// haven't cached it yet
+				if ($page['file_name'] != '')
+				{
+					$file_names[] = $page['file_name'];
+				}
+			}
+			// End foreach ($pages as $key => $page) {}
+		}
+		// if ($this->get_setting('doc_type') == 'dir') {}
+		
+		
+		return $pages;
 	}
 	// End function get_pages()
 	

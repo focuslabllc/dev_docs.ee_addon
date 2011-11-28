@@ -31,6 +31,42 @@
 
 
 /*******************************
+    Submenu (for directory docs)
+*******************************/
+
+#dev_docs_submenu {
+	float: right;
+	width: 200px;
+	border: 1px solid #000;
+	padding: 15px;
+	margin: 0 0 25px 25px;
+	background: inherit;
+}
+
+#dev_docs_submenu h3 {
+	
+}
+
+#dev_docs_submenu ul {
+	
+}
+
+#dev_docs_submenu ul li {
+	
+}
+
+#dev_docs_submenu ul li.current {
+	
+}
+
+#dev_docs_submenu li a {
+	
+}
+
+/* End Submenu */
+
+
+/*******************************
     Other block level elements
 *******************************/
 
@@ -66,6 +102,11 @@
 #dev_docs ol ol, #dev_docs ul ul { margin: 5px 5px 5px 15px; }
 #dev_docs ul { list-style: disc; }
 
+#dev_docs dl { margin: 10px 0 20px 20px; }
+#dev_docs dl dt { margin: 20px 0 10px; font-weight: bold; }
+#dev_docs dl dt:first-child { margin-top: 0; }
+#dev_docs dl dd { margin-left: 20px; }
+
 /* End Other block level elements */
 
 
@@ -95,6 +136,10 @@
 	background: #93A5B1;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#ABB7C3), to(#93A5B1));
 }
+#dev_docs table thead td {
+	border: 1px solid #C3C9D1;
+	border-top-color: #E1EDF8;
+}
 #dev_docs table th {
 	padding: 6px;
 	font-size: 12px;
@@ -106,6 +151,7 @@
 	border: 1px solid #C3C9D1;
 	border-top-color: #E1EDF8;
 }
+#dev_docs table th code { background: inherit; text-shadow: 0 1px 0 #6E6E6E; }
 #dev_docs table td {
 	vertical-align: middle;
 	padding: 8px 6px;
