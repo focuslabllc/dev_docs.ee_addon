@@ -222,13 +222,20 @@ class Dev_docs_model {
 		{
 			return FALSE;
 		}
-		// exit(var_dump($file_name));
-		$pages = $this->_EE->db->select(array('heading', 'short_name'))
-		                       ->where('sub_dir', $sub_dir)
-		                       ->where('file_name', $file_name)
-		                       ->get('exp_dd_doc_sections');
-		// exit($this->_EE->db->last_query());
-		if ($pages->num_rows() == 0)
+		
+		$this->_EE->db->select(array('heading', 'short_name'));
+		$this->_EE->db->where('sub_dir', $sub_dir);
+		// If the directory is empty we can limit by file_name
+		// enabling single files in directories to break out into
+		// multiple files
+		if ($sub_dir == '')
+		{
+			$this->_EE->db->where('file_name', $file_name);
+		}
+		$pages = $this->_EE->db->get('exp_dd_doc_sections');
+		
+		// Bail out if there's only 1 page or none at all
+		if ($pages->num_rows() <= 1)
 		{
 			return FALSE;
 		}
