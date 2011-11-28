@@ -52,7 +52,11 @@ Wait and see...
 
 h2. Change Log
 
-+*November 26th, 2011: 0.1.5*+
++*November 27th, 2011: 0.1.6*+
+
+* Added initial support for directories of files
+
+*November 26th, 2011: 0.1.5*
 
 * Fixed bug with constant declaration in config file
 * Added parser for Markdown
