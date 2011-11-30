@@ -92,7 +92,7 @@
 
 #dev_docs p { font-size: 1.1em; line-height: 1.3em; }
 
-#dev_docs p.notice {
+#dev_docs p.notice, #dev_docs p.note {
 	color: #000;
 	margin: 20px 10px;
 	background: #fcfdbe;
@@ -104,6 +104,9 @@
 	box-shadow: 1px 1px 0 #fff;
 	box-shadow: 0 -1px 0 #8d8d74;
 }
+#dev_docs > p.notice, #dev_docs > p.note { margin-top: 10px; }
+#dev_docs .notice code, #dev_docs .notice pre,
+	#dev_docs .note code, #dev_docs .note pre { background-color: transparent; }
 
 #dev_docs blockquote {
 	margin: 20px 0;
@@ -147,6 +150,7 @@
 #dev_docs table {
 	position: relative;
 	width: 100%;
+	margin: 15px 0;
 	font-size: 1em;
 	border-spacing: 0px;
 	border-collapse: collapse;
