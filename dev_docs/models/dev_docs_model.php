@@ -334,6 +334,17 @@ class Dev_docs_model {
 	}
 	// End function get_pages()
 	
+	
+	
+	
+	/**
+	 * Check if docs exist in the DB yet
+	 */
+	public function docs_exist($site_id = '1')
+	{
+		return ($this->_EE->db->get_where('exp_dd_doc_sections', array('site_id' => $site_id))->num_rows() === 0) ? FALSE : TRUE ;
+	}
+	
 }
 // End class Dev_docs_model
 

@@ -136,7 +136,8 @@ class Dev_docs_setup_model {
 				'file_name'  => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'sub_dir'    => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'heading'    => array('type' => 'VARCHAR', 'constraint' => '255'),
-				'content'    => array('type' => 'TEXT')
+				'content'    => array('type' => 'TEXT'),
+				'site_id'    => array('type' => 'INT', 'default' => 1),
 			);
 			$this->_EE->dbforge->add_field($table1_fields);
 			$this->_EE->dbforge->add_key('id', TRUE);
@@ -151,6 +152,7 @@ class Dev_docs_setup_model {
 				'is_serialized' => array('type' => 'INT', 'constraint' => '1', 'default' => '0')
 			);
 			$this->_EE->dbforge->add_field($table2_fields);
+			$this->_EE->dbforge->add_key('key', TRUE);
 			$this->_EE->dbforge->create_table('dd_settings');
 		}
 	}

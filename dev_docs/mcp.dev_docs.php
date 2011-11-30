@@ -75,6 +75,7 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Will be a setting / config override down the road.
 		$file_path = APPPATH . 'third_party/dev_docs/views/samples/sample-directory/';
+		$this->_EE->dev_docs_model->save_setting('file_path', $file_path);
 		
 		if ( ! file_exists($file_path))
 		{
@@ -91,7 +92,14 @@ class Dev_docs_mcp {
 		 * approach to caching the file contents it won't have to read and parse through the file(s) each
 		 * time a page loads in the module.
 		 */
-		if (filemtime($file_path) !== $this->_EE->dev_docs_model->get_setting('timestamp'))
+		
+		$path_changed = ($file_path != $this->_EE->dev_docs_model->get_setting('file_path')) ? TRUE : FALSE ;
+		$file_updated = (filemtime($file_path) !== $this->_EE->dev_docs_model->get_setting('timestamp')) ? TRUE : FALSE ;
+		$directory_mode = ($this->_EE->dev_docs_model->get_setting('doc_type') == 'dir') ? TRUE : FALSE ;
+		$docs_exist = $this->_EE->dev_docs_model->docs_exist();
+		
+		// @todo - decide how to cache directory mode files
+		if ( ! $docs_exist OR ($directory_mode === FALSE && ($path_changed OR $file_updated)) )
 		{
 			// delete doc rows
 			$this->_EE->dev_docs_model->clear_current_docs();
