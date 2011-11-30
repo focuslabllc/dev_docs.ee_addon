@@ -43,46 +43,45 @@ class Docs_library
 		{
 			return;
 		}
+        
+        // Get the flat file's contents
+        $docs = file_get_contents($filepath);
 		
-		/**
-		 * Load our Textile class
-		 * @link https://github.com/netcarver/textile
-		 */
-		require('classTextile.php');
-		$textile = new Textile();
-		
-		// Get the flat file's contents
-		$docs = file_get_contents($filepath);
-		
-		// Strip out the first h1 section which is only needed when opening the file directly
-		$docs = preg_replace('/h1\..+-{3}/s', '', $docs);
-		
-		// "explode" the docs into sections based on instances of h1 lines
-		$sections = preg_split("/(h1\.\s.+)/", $docs, NULL, PREG_SPLIT_DELIM_CAPTURE);
-		
-		// Unset our first array item because PHP makes it empty if the preg_split
-		// subject begins with the pattern which ours does
-		unset($sections[0]);
-		
-		// If we have an array, loop through it and build the "pages"
-		if (is_array($sections) && count($sections) > 0)
-		{
-			foreach ($sections as $section) {
-				// exit(substr($section, 0, 4));
-				if (substr($section, 0, 4) == 'h1. ')
-				{
-					$headings[] = substr($section, 4);
-				} else {
-					$content[] = $textile->TextileThis($section);
-				}
-			}
-		}
-		
-		// echo "<pre>";
-		// print_r($headings);
-		// print_r($content);
-		// echo "</pre>";
-		// exit;
+        // if it's a Textile file, grab and run Textile on it. Otherwise run Markdown and Smartypants.
+		if(strpos($filepath,'.textile') > -1) {
+            require('classTextile.php');
+            $textile = new Textile();
+            $docs = $textile->TextileThis($docs);
+            }
+            
+        else {
+            require('markdown.php');
+            require('smartypants.php');
+            $docs = Markdown($docs);
+            $docs = SmartyPants($docs);
+            }
+            
+        // "explode" the docs into sections based on instances of h1 lines
+        $sections = preg_split("/(<h1.*?>.*?<\/h1>)/", $docs, NULL, PREG_SPLIT_DELIM_CAPTURE);
+        
+        // If our first item is blank, unset it. Otherwise, insert a generic <h1> in front of it.
+        if(trim($sections[0]) == '') {
+            unset($sections[0]);
+            }
+        else {
+            $sections = array_merge(array('<h1>Overview</h1>'),$sections);
+            }    
+        
+        foreach ($sections as $section) {
+            // exit(substr($section, 0, 4));
+            if (substr($section, 0, 3) == '<h1') {
+                $headings[] = preg_replace('/<h1.*?>(.*?)<\/h1>/s', "$1", $section,1);
+                } 
+            else {
+                $content[] = trim($section);
+                }
+            }
+
 		$this->_EE->load->model('dev_docs_model');
 		$this->_EE->dev_docs_model->save_docs($headings, $content);
 		

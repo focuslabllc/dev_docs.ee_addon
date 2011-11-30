@@ -54,6 +54,27 @@ class Dev_docs_model {
 	// End function cached_timestamp()
 	
 	
+    
+    /**
+	 * Get cached timestamp and file
+	 * 
+	 * @access    public
+	 * @author    Erik Reagan <erik@focuslabllc.com>
+	 * @return    int
+	 */
+	public function caching_data($what)
+	{
+		$query = $this->_EE->db->get_where('dd_settings', array('key' => 'last_saved'));
+		if($query->num_rows() > 0) {
+            $me =  $query->row()->value;
+            $me = unserialize($me);
+            return $me[$what];
+            }
+        else {
+            return 0;
+            }
+	}
+	// End function caching_data($what)
 	
 	
 	/**
@@ -64,15 +85,16 @@ class Dev_docs_model {
 	 * @param     int   UNIX timestamp
 	 * @return    void
 	 */
-	public function save_timestamp($timestamp = 0)
+	public function save_timestamp($timestamp = 0,$fp = '')
 	{
+        $mydata = serialize(array('timestamp' => $timestamp, 'filepath' => $fp));
 		if ($this->_EE->db->get_where('dd_settings', array('key' => 'last_saved'))->num_rows() == 0)
 		{
 			// new row
-			$this->_EE->db->insert('exp_dd_settings', array('key' => 'last_saved', 'value' => $timestamp)); 
+			$this->_EE->db->insert('exp_dd_settings', array('key' => 'last_saved', 'value' => $mydata, 'is_serialized' => 1)); 
 		} else {
 			// update row
-			$this->_EE->db->where('key', 'last_saved')->update('dd_settings', array('value' => $timestamp));
+			$this->_EE->db->where('key', 'last_saved')->update('dd_settings', array('value' => $mydata, 'is_serialized' => 1));
 		}
 	}
 	// End function save_timestamp()

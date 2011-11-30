@@ -1,15 +1,20 @@
-h1. Notes for Project
+h1. Notes for Project New!
 
 These notes are intended to be only for the developer(s) on the project.
 
----
+-------
 
+<h1 class="testing">Blah</h1>   
 
-h1. Style Samples
+asdfasfasfasf
+
+asfasdfasdf
+
+h1. Style Samplesfdafsdfasdfasdf
 
 This is a small paragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
-h2. This is a title, H2
+h2. This is a title, H2fsdafasfas
 
 This is a small paragraph. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
@@ -76,7 +81,7 @@ $text = str_replace("%::%","",$text);
 </code></pre>
 
 
-h1. Site Overview
+h1{color:red}. Site Overview
 
 This file contains details on the workings of EE for mysite.com. Every template is also documented with helpful information regarding the EE setup. Developers on the project include the full dev team at "Focus Lab, LLC":http://focuslabllc.com
 
@@ -206,7 +211,6 @@ Our site is maintained by a couple of developers. The content is reviewed by a s
 * *Authors* - Guest authors. Publish/Edit access to _their_ entries in the Blog channel. Cannot edit categories or access Structure. When they create blog entries the Status is set to Closed so the Editor can review before posting to the site. Authors do still have access to the Control Panel for the management of their entries.
 
 Other default Member Groups are not widely used. There is no site registration so "Allow New Member Registration" is set to "No" and all "guest authors" are registered manually by the Editor.
-
 
 h1. Templates
 
