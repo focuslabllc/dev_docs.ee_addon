@@ -74,7 +74,7 @@ class Dev_docs_mcp {
 		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
 		// Grab our developer documentation. Will be a setting / config override down the road.
-		$file_path = APPPATH . 'third_party/dev_docs/views/sample-directory/';
+		$file_path = APPPATH . 'third_party/dev_docs/views/samples/sample-directory/';
 		
 		if ( ! file_exists($file_path))
 		{
