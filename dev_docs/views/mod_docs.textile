@@ -1,0 +1,142 @@
+h1. Notes for Project
+
+These notes are intended to be only for the developer(s) on the project.
+
+---
+
+
+h1. Site Overview
+
+This site consists of a few notable features:
+
+* Feature 1
+* Feature 2
+
+h2. General Dev Notes
+
+This file contains details on the workings of EE for this site. Developers on the project include the full dev team at "Minds On Design Lab Inc.":http://mod-lab.com
+
+h3. Content Management
+
+* Site content is managed through Channels for multiple entry type content. Details can be seen in Channel Map. 
+* Unique content regions/blocks that had notable potential frequent or occasional Client edit, have been set up as global vars likely using the Low Variable module.  Variable groups have been set up consistent with variable use on the site.
+* Every template is also documented with helpful information regarding the EE setup and are set up to be grouped and formatted for easy review and reading.
+
+h3. Naming Conventions
+
+Across the Channels, Custom Fields and Upload Directories we use the same naming convention. 
+
+* Channel name is "Pages"
+* 1 Upload directory for the images per channel
+* My names would look something like:
+** Channel short name: "pages"
+** Custom fields: "page_body", "page_detail_image" ...
+** Upload Directory: "Pages Image Uploads"
+
+This convention is used when applicable in Status Groups, Categories & closely related Channels as well.
+
+h3. Version Control
+
+During development, MOD-Lab stores key files for this site in a Git repository. We host our repositories with a service called Beanstalk. Developers check in to Beanstalk and we deploy from Beanstalk to all non-local environments (staging & production). Ignored files include .htaccess, caches & upload directories, and core config files. See the ./.gitignore file for the full ignore list.
+
+h3. Server Environments
+
+h4. Development
+
+* Specific to each developer.
+* Developers are encouraged to run the latest stable versions of PHP and MySQL
+
+h4. Staging
+
+* Located at site.mod-lab-dev.com
+* Code deployment is done automatically from Beanstalk.
+
+h4. Production
+
+* Located at SITE DOMAIN HERE
+* Code deployment is done manually from Beanstalk
+
+
+h1. Channel Map
+
+The following details the site's channel setup along with specific details of key EE technologies including comments, categories, and custom fields most notably.
+
+h4. Common Field Types Definitions
+
+|^.
+|_. Field Type|_. Description|
+|-.
+|Text Input|Single line text|
+|Text Area|Multi-line text|
+|Select Dropdown|A pulldown menu with defined options to choose from.|
+|Checkbox/Radio|Checkbox is used to select more than one option from a defined set, radio for one option from a defined set.  Often used for Yes/No or data flagging type needs.|
+|Date|A date/time field with calendar selector.|
+|File|File select and upload field, often we connect up the field to a specific upload destination to help with file organization.|
+|Relationship|A special pulldown that connects to entries of another channel allowing for a relationship to be established.|
+|Wygwam|Text area field with CKeditor based WYSIWG editor.|
+|Matrix|Matrix is a special third-party (http://pixelandtonic.com/matrix) fieldtype that allows us to create a field like a spreadsheet that has multiple fields within it (cells) and that allows multiple sets of these fields to be created (rows).|
+|Playa|Playa is a special third-party (http://pixelandtonic.com/playa) fieldtype that facilitates more elaborate entry relationships including one to many and many to many type relationships.  It is also needed to have a relationship-type field as Matrix cell.|
+
+h2. Pages
+
+This Channel is for the site's static content. It houses things like About Us and Contact. 
+
+* Short Name: pages
+* No Comments
+* No Categories
+
+h3. Custom Fields
+
+|^.
+|_. Field|_. Short Name|_. Description|_. Options|_. Required|
+|-.
+|Body|page_body|Wygwam w/ full editor||y|
+
+h2. Blog
+
+This Channel is used for the site's blog.
+
+* Short Name: blogs
+* Comments: On
+* Categories: Blog Categories
+
+h3. Custom Fields
+
+|^.
+|_. Field|_. Short Name|_. Description|_. Options|_. Required|
+|-.
+|Detail Image|blog_image|File upload - Blog directory|||
+|Summary|blog_summary|Wygwam - Basic||y|
+|Body|blog_body|Wygwam - Full||y|
+
+
+h1. Member Groups
+
+Member groups control access to various administrative features of the site. Our standard configuration for a content managed site is the Super Admin group used by developers and available to Client when needed and an Editor group with at least one "editor" account with a reduced permission view focused on day to day content and site management. In many cases additional groups are needed. Here are what have been set up for this site.
+
+|^.
+|_. Group|_. Description|
+|-.
+|Super Admins|Used by developers on the site with full access to everything|
+|Editors|The site editor. Publish/Edit access to all Channels, can edit categories, and all site content. They also have access to Member management so they can add/edit the "guest authors" at will. *NO* access to Templates, other Modules (unless content related), Any admin preferences etc.|
+
+
+h1. 3rd Party Add-ons
+
+Whenever possible we like to use what EE offers as part of its core offering; however, there are some wonderful, well-supported add-ons available that offer enhancements that save development time and/or offering improved content/site management functionality to Clients.  Some offerings are commercial, while others open-source. In either case we make sure to evaluate add-on code as well as developers that create and maintain them to do our best to ensure that are supported and high quality.
+
+|^.
+|_. Name|_. Type|_. Usage Description|_. License|
+|-.
+|"Dev Docs":https://github.com/focuslabllc/dev_docs.ee_addon|Module|Used to power this development documentation. Takes a code managed file with standard textile (or other) markup and renders multiple "pages" of developer documentation within the control panel.|Free|
+|"Low NoSpam":http://gotolow.com/addons/low-nospam|Module|Used to help manage comment and registration spam. Connects to either Typepad or Akismet databases as well as provides helpful shortcuts to manage comments identified by the module for spam.|Free|
+|"Low Variables":http://gotolow.com/addons/low-variables|Module|Provides a powerful overlay on EE's global variables allowing clients to more effectively manage unique content regions and variables that do make sense to be part of channel data.|Commercial - License:|
+|"Taxonomy":http://iain.co.nz/software/docs/taxonomy|Module|Used to manage navigational elements on the site. Allows you to create trees with various nodes and configurations that make management of primary navigation as well as other groups of navigational links that are not channel driven easier to manage behind the scenes and develop with in templates.|Commercial|
+|"SEO Lite":http://www.addonbakery.com/expressionengine-addons/seolite.html|Module|Used to help offer per content entry metadata as well as site-wide defaults to help with basic search engine optimization.|Free|
+|"Wygwam":http://pixelandtonic.com/wygwam|Module|A great wrapper for the CKeditor WYSIWG text editor. Provides great tools for configuring editor sets and advanced CKeditor configuration settings.|Commercial - License: |
+|"Solspace Tags":http://www.solspace.com/software/detail/tag|Module|Used for blog and story tagging|Commercial - Transaction ID: |
+|"Solspace User":http://www.solspace.com/software/detail/user|Module|Used for flexible templating for user registration and login screens.|Commercial - Transaction ID: |
+|"Freeform":http://www.solspace.com/software/detail/freeform/|Module|Used for site forms|Free|
+|"Matrix":http://pixelandtonic.com/matrix|Extension|Used to create a unique field type for channel data that allows multiple rows of content to be added with a configurable collection of different columns of fields.|Commercial - License: |
+|"Switchee":http://devot-ee.com/add-ons/switchee/|Plugin|Used for more efficient templates in place of complex EE conditionals.|Free|
+|"MODL Social Widgets":https://github.com/Minds-On-Design-Lab/modl_social_widgets.ee-addon|Plugin|Used as a shortcut library for adding social widgets to a site|A Minds On Design Lab Tool|
