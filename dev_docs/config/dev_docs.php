@@ -21,7 +21,7 @@
  * Also define the version constant to be
  * used in the extension and accessory files
  */
-$config['dd:version'] = "0.1.4";
+$config['dd:version'] = "0.1.5";
 if ( ! defined('DD_VERSION'))
 {
 	define('DD_VERSION',$config['dd:version']);
@@ -36,8 +36,13 @@ $config['dd:description'] = "Parse the project Developer Documentation within th
 
 /**
  * @var    string   URL base for inner add-on linking
+ * 
+ * We use the conditional so that the config value is only set within the CP
  */
-$config['dd:mod_url_base'] = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dev_docs';
+if (defined('BASE'))
+{
+	$config['dd:mod_url_base'] = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dev_docs';
+}
 
 
 /**

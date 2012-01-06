@@ -2,11 +2,11 @@ h1. Dev Docs
 
 Dev Docs was born from a desire to have project-specific, developer-based documentation available within a site's Control Panel.
 
-At Focus Lab we have a file in each project's repository root that is meant only for developers. This file is in Textile formatting (like this readme file) and is meant to be the primary source of information to get "up to speed" on the project. You can learn more about our documentation practices in "our documentation article on EE Insider":http://eeinsider.com/articles/the-dreaded-documentation/.
+At Focus Lab we have a file in each project's repository root that is meant only for developers. This file is in either Textile, Markdown or HTML syntax (like this readme file) and is meant to be the primary source of information to get "up to speed" on the project. You can learn more about our documentation practices in "our documentation article on EE Insider":http://eeinsider.com/articles/the-dreaded-documentation/.
 
-Dev Docs will parse the Textile-formatted documentation file into a multi-page Control Panel experience. Each "page" is determined by each "h1. Title" section of the document. The documentation is cached in the database to speed up page loads while reviewing the docs. If the documentation ever gets updated, the cache is automagicaly cleared and the docs are updated in the database.
+Dev Docs will parse the documentation file into a multi-page Control Panel experience. Each "page" is determined by each section of the document starting with an H1 tag. The documentation is cached in the database to speed up page loads while reviewing the docs. If the documentation ever gets updated, the cache is automagicaly cleared and the docs are updated in the database.
 
-Included in this download is the sample file that is referenced in our EE Insider article and in the embedded slides there. Below you can see how TextMate renders the flat file and how Dev Docs renders the same exact file without any extra effort from the developers.
+Included in this download is the sample file that is referenced in our EE Insider article and in the embedded slides there. Below you can see how TextMate renders the flat file Textile document and how Dev Docs renders the same exact file without any extra effort from the developers.
 
 !http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-2.jpg!
 !http://files.focuslabllc.com.s3.amazonaws.com/screens/dd/screen-3.jpg!
@@ -31,13 +31,13 @@ h2. Installation
 
 h2. Setup
 
-You can save your documentation file anywhere on your server that is accessible from EE's control panel index/admin page. The module will break off each "section" of the document into individual pages in the CP. A "section" is defined by an @h1@ tag in Textile. That means each line starting with @h1. @ will cause a new page in the Dev Docs area.
+You can save your documentation file anywhere on your server that is accessible from EE's control panel index/admin page. The module will break off each "section" of the document into individual pages in the CP. A "section" is defined by an @<h1>@ tag. That means each @<h1>@ will cause a new page in the Dev Docs area and be listed in the menu.
 
-Here are a few places to learn more about the Textile syntax:
+h3. Supported Syntaxes
 
-* "Wikipedia overview":http://en.wikipedia.org/w/index.php?title=Textile_(markup_language)&oldid=443239873
-* "Textism sample markup":http://www.textism.com/tools/textile/
-* "A Textile Reference":http://redcloth.org/hobix.com/textile/ (@_why's original reference sheet)
+Dev Docs supports three file types so far. Textile, Markdown and straight HTML. You don't need to define what syntax you want to use. Dev Docs will detect that based on the file's extension.
+
+You can optionally create sections before and after your documentation that will not appear within the EE Control Panel. To do this just create a paragraph line with @::start::@ or @::end::@. Anything above @::start::@ or below @::end::@ will not be parsed and saved into the Control Panel.
 
 
 h2. To Do
@@ -52,7 +52,15 @@ Wait and see...
 
 h2. Change Log
 
-+*August 9th, 2011: 0.1.4*+
++*November 26th, 2011: 0.1.5*+
+
+* Fixed bug with constant declaration in config file
+* Added parser for Markdown
+* Added support for HTML file (as opposed to Textile or Markdown)
+* Moved parsers into separate directory @dev_docs/libraries/parsers@
+* Added config override for add-on name in Control Panel
+
+*August 9th, 2011: 0.1.4*
 
 * Added Dev Docs to the CP menu (by way of the cp_menu_array hook)
 * Updated styles a bit
