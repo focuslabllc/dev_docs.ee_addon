@@ -223,7 +223,10 @@ class Docs_library
 	 */
 	public function parse_textile($file_path = FALSE)
 	{
-		require_once('parsers/textile/classTextile.php');
+		if ( ! class_exists('Textile'))
+		{
+			require_once('parsers/textile/classTextile.php');
+		}
 		$textile = new Textile();
 		$docs = file_get_contents($file_path);
 		
@@ -244,7 +247,10 @@ class Docs_library
 	 */
 	public function parse_md($file_path = FALSE)
 	{
-		require_once('parsers/md/markdown.php');
+		if ( ! function_exists('Markdown'))
+		{
+			require_once('parsers/md/markdown.php');
+		}
 		$docs = file_get_contents($file_path);
 		
 		return Markdown($docs);
