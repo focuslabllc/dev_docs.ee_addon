@@ -13,14 +13,9 @@
  * @license    MIT  http://opensource.org/licenses/mit-license.php
  */
 
-class Dev_docs_setup_model {
-	
-	
-	/**
-	 * @var object  the EE "superobject"
-	 */
-	private $_EE;
-	
+require_once(PATH_THIRD . '/' . DD_SHORT_NAME . '/focus_base/model.php');
+
+class Dev_docs_setup_model extends Focus_base_model {
 	
 	
 	/**
@@ -32,8 +27,8 @@ class Dev_docs_setup_model {
 	 */
 	public function __construct()
 	{
-		$this->_EE =& get_instance();
-		$this->_EE->load->dbforge();
+		parent::__construct();
+		$this->EE->load->dbforge();
 	}
 	// End function __construct()
 	
@@ -53,12 +48,12 @@ class Dev_docs_setup_model {
 	 */
 	public function insert_module($mod_data, $action_array = FALSE)
 	{
-		$this->_EE->db->insert('modules', $mod_data);
+		$this->EE->db->insert('modules', $mod_data);
 		// Actions
 		if ($action_array)
 		{
 			foreach ($action_array as $action) {
-				$this->_EE->db->insert('actions', $action);
+				$this->EE->db->insert('actions', $action);
 			}
 		}		
 	}
@@ -82,7 +77,7 @@ class Dev_docs_setup_model {
 	 */
 	public function insert_extension($data)
 	{
-		$this->_EE->db->insert('extensions', $data);
+		$this->EE->db->insert('extensions', $data);
 	}
 	// End function insert_extension()
 	
@@ -104,7 +99,7 @@ class Dev_docs_setup_model {
 	 */
 	public function delete_extension()
 	{
-		$this->_EE->db->where('class', 'Dev_docs_ext')
+		$this->EE->db->where('class', 'Dev_docs_ext')
 		              ->delete('extensions');
 	}
 	// End function delete_extension()
@@ -123,12 +118,12 @@ class Dev_docs_setup_model {
 	 */
 	public function create_dd_tables()
 	{
-		if ($this->_EE->db->table_exists('dd_doc_sections') && $this->_EE->db->table_exists('dd_settings'))
+		if ($this->EE->db->table_exists('dd_doc_sections') && $this->EE->db->table_exists('dd_settings'))
 		{
 			return;
 		}
 		
-		if ( ! $this->_EE->db->table_exists('dd_doc_sections'))
+		if ( ! $this->EE->db->table_exists('dd_doc_sections'))
 		{
 			$table1_fields = array(
 				'id'         => array('type' => 'INT', 'constraint' => '10', 'unsigned' => TRUE, 'auto_increment' => TRUE),
@@ -139,21 +134,22 @@ class Dev_docs_setup_model {
 				'content'    => array('type' => 'TEXT'),
 				'site_id'    => array('type' => 'INT', 'default' => 1),
 			);
-			$this->_EE->dbforge->add_field($table1_fields);
-			$this->_EE->dbforge->add_key('id', TRUE);
-			$this->_EE->dbforge->create_table('dd_doc_sections');
+			$this->EE->dbforge->add_field($table1_fields);
+			$this->EE->dbforge->add_key('id', TRUE);
+			$this->EE->dbforge->create_table('dd_doc_sections');
 		}
 		
-		if ( ! $this->_EE->db->table_exists('dd_settings'))
+		if ( ! $this->EE->db->table_exists('dd_settings'))
 		{
 			$table2_fields = array(
 				'key'           => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'value'         => array('type' => 'TEXT'),
+				'site_id'       => array('type' => 'INT', 'default' => '1'),
 				'is_serialized' => array('type' => 'INT', 'constraint' => '1', 'default' => '0')
 			);
-			$this->_EE->dbforge->add_field($table2_fields);
-			$this->_EE->dbforge->add_key('key', TRUE);
-			$this->_EE->dbforge->create_table('dd_settings');
+			$this->EE->dbforge->add_field($table2_fields);
+			$this->EE->dbforge->add_key('key', TRUE);
+			$this->EE->dbforge->create_table('dd_settings');
 		}
 	}
 	// End function create_dd_table()
@@ -174,16 +170,16 @@ class Dev_docs_setup_model {
 	 */
 	public function delete_module()
 	{
-		$this->_EE->db->select('module_id');
-		$query = $this->_EE->db->get_where('modules', array('module_name' => 'Dev_docs'));
+		$this->EE->db->select('module_id');
+		$query = $this->EE->db->get_where('modules', array('module_name' => 'Dev_docs'));
 		
-		$this->_EE->db->where('module_id', $query->row('module_id'))
+		$this->EE->db->where('module_id', $query->row('module_id'))
 		              ->delete('module_member_groups');
 		
-		$this->_EE->db->where('module_name', 'Dev_docs')
+		$this->EE->db->where('module_name', 'Dev_docs')
 		              ->delete('modules');
 		
-		$this->_EE->db->where('class', 'Dev_docs_mcp')
+		$this->EE->db->where('class', 'Dev_docs_mcp')
 		              ->delete('actions');
 	}
 	// End function delete_module()
@@ -204,17 +200,17 @@ class Dev_docs_setup_model {
 	{
 		// deprecated table
 		// @todo - remove dd_dev_docs from method before 1.0 release
-		if ($this->_EE->db->table_exists('dd_dev_docs'))
+		if ($this->EE->db->table_exists('dd_dev_docs'))
 		{
-			$this->_EE->dbforge->drop_table('dd_dev_docs');
+			$this->EE->dbforge->drop_table('dd_dev_docs');
 		}
-		if ($this->_EE->db->table_exists('dd_settings'))
+		if ($this->EE->db->table_exists('dd_settings'))
 		{
-			$this->_EE->dbforge->drop_table('dd_settings');
+			$this->EE->dbforge->drop_table('dd_settings');
 		}
-		if ($this->_EE->db->table_exists('dd_doc_sections'))
+		if ($this->EE->db->table_exists('dd_doc_sections'))
 		{
-			$this->_EE->dbforge->drop_table('dd_doc_sections');
+			$this->EE->dbforge->drop_table('dd_doc_sections');
 		}
 	}
 	// End function drop_dd_tables()

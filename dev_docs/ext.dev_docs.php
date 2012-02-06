@@ -12,26 +12,9 @@
  * @license    MIT  http://opensource.org/licenses/mit-license.php
  */
 
-require_once(PATH_THIRD . 'dev_docs/config/dev_docs.php');
+require_once('focus_base/ext.php');
 
-class Dev_docs_ext {
-	
-	/**
-	 * @var string  Extension name
-	 */
-	public $name = 'Dev Docs';
-	
-	
-	/**
-	 * @var string  Extension version number
-	 */
-	public $version = DD_VERSION;
-	
-	
-	/**
-	 * @var string  Extension description
-	 */
-	public $description = 'CP Menu addition for Dev Docs module';
+class Dev_docs_ext extends Focus_base_ext {
 	
 	
 	/**
@@ -41,27 +24,21 @@ class Dev_docs_ext {
 	
 	
 	/**
-	 * @var string  Extensions documentation URL
-	 */
-	public $docs_url = 'http://focuslabllc.com/';
-	
-	
-	/**
 	 * @var array  Extension settings array
 	 */
 	public $settings = array();
 	
 	
 	/**
-	 * @var object  The EE super object to be referenced in our {@link __construct()}
+	 * @var array  Required by (other add-on types)
 	 */
-	private $_EE;
+	public $required_by = array('Module');
 	
 	
 	/**
-	 * @var string  Base URL for inner-module linking
+	 * @var object  The EE super object to be referenced in our {@link __construct()}
 	 */
-	private $_url_base;
+	protected $EE;
 	
 	
 	
@@ -75,18 +52,15 @@ class Dev_docs_ext {
 	 */
 	public function __construct($settings='')
 	{
-		
-		$this->_EE =& get_instance();
+
+		parent::__construct();
 		
 		// load some goodies
-		$this->_EE->load->add_package_path(PATH_THIRD . 'dev_docs');
-		$this->_EE->load->config('dev_docs');
-		$this->_EE->load->model('dev_docs_model');
-		$this->_EE->load->library('Docs_library');
+		$this->EE->load->add_package_path(PATH_THIRD . 'dev_docs');
+		$this->EE->load->model('dev_docs_model');
+		$this->EE->load->library('Docs_library');
 		// Lang file isn't auto-loaded for some reason
-		$this->_EE->lang->loadfile('dev_docs');
-		
-		$this->_url_base = $this->_EE->config->item('dd:mod_url_base');
+		$this->EE->lang->loadfile('dev_docs');
 		
 	}
 	// End function __construct()
@@ -105,16 +79,16 @@ class Dev_docs_ext {
 	public function cp_menu_array($menu)
 	{
 		
-		if ($this->_EE->extensions->last_call !== FALSE)
+		if ($this->EE->extensions->last_call !== FALSE)
 		{
-			$menu = $this->_EE->extensions->last_call;
+			$menu = $this->EE->extensions->last_call;
 		}
 		
 		// Query to get our menu titles
-		$pages = $this->_EE->dev_docs_model->get_pages();
+		$pages = $this->EE->dev_docs_model->get_pages();
 		foreach ($pages as $page) {
-			$this->_EE->lang->language['nav_'.$page['short_name']] = $page['heading'];
-			$menu['dev_docs'][$page['short_name']] = $this->_url_base . AMP . 'docs_page=' . $page['short_name'];
+			$this->EE->lang->language['nav_'.$page['short_name']] = $page['heading'];
+			$menu['dev_docs'][$page['short_name']] = $this->url_base() . AMP . 'docs_page=' . $page['short_name'];
 		}
 		
 		return $menu;
@@ -135,7 +109,7 @@ class Dev_docs_ext {
 	public function settings()
 	{
 		// Default settings are stored in config/dev_docs.php
-		return $this->_EE->config->item('dd:default_settings');
+		return array();
 	}
 	// End function settings()
 	

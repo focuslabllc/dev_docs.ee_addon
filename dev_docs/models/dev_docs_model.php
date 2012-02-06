@@ -12,15 +12,9 @@
  * @license    MIT  http://opensource.org/licenses/mit-license.php
  */
 
-class Dev_docs_model {
-	
-	
-	/**
-	 * @var object  the EE "superobject"
-	 */
-	private $_EE;
-	
-	
+require_once(dirname(__FILE__) . '/../focus_base/model.php');
+
+class Dev_docs_model extends Focus_base_model {
 	
 	
 	/**
@@ -32,8 +26,9 @@ class Dev_docs_model {
 	 */
 	public function __construct()
 	{
-		$this->_EE =& get_instance();
-		$this->_EE->load->config('dev_docs');
+		parent::__construct();
+		$this->EE->load->config('dev_docs');
+		$this->site_id = $this->EE->config->item('site_id');
 	}
 	// End function __construct()
 	
@@ -49,13 +44,18 @@ class Dev_docs_model {
 	 */
 	public function get_setting($key = FALSE)
 	{
-		if ( ! $key)
+		$config_value = parent::get_setting($key);
+
+		if ($config_value)
 		{
-			return FALSE;
+			return $config_value;
 		}
-		
-		$query = $this->_EE->db->get_where('dd_settings', array('key' => $key));
-		return ($query->num_rows() > 0) ? $query->row()->value : 0 ;
+
+		// If there's not a config override, we'll query the database for the setting
+		$query = $this->EE->db->where('site_id', $this->site_id)
+		                      ->where('key', $key)
+		                      ->get('dd_settings');
+		return ($query->num_rows() > 0) ? $query->row()->value : NULL ;
 	}
 	// End function get_setting()
 	
@@ -79,13 +79,13 @@ class Dev_docs_model {
 			return FALSE;
 		}
 		
-		if ($this->_EE->db->get_where('dd_settings', array('key' => $key))->num_rows() == 0)
+		if ($this->EE->db->get_where('dd_settings', array('key' => $key))->num_rows() == 0)
 		{
 			// new row
-			$this->_EE->db->insert('exp_dd_settings', array('key' => $key, 'value' => $value, 'is_serialized' => $serialized)); 
+			$this->EE->db->insert('exp_dd_settings', array('key' => $key, 'value' => $value, 'site_id' => $this->site_id, 'is_serialized' => $serialized)); 
 		} else {
 			// update row
-			$this->_EE->db->where('key', $key)->update('dd_settings', array('value' => $value, 'is_serialized' => $serialized));
+			$this->EE->db->where('key', $key)->update('dd_settings', array('value' => $value, 'site_id' => $this->site_id, 'is_serialized' => $serialized));
 		}
 	}
 	// End function save_setting()
@@ -96,9 +96,7 @@ class Dev_docs_model {
 	/**
 	 * Clear docs
 	 * 
-	 * If our documentation file has been updated we need
-	 * to empty the current "content" from our table completely
-	 * before saving the newly parsed data
+	 * Delete the cached documentation for this specific site
 	 * 
 	 * @access    public
 	 * @author    Erik Reagan <erik@focuslabllc.com>
@@ -106,7 +104,7 @@ class Dev_docs_model {
 	 */
 	public function clear_current_docs()
 	{
-		$this->_EE->db->empty_table('exp_dd_doc_sections');
+		$this->EE->db->delete('exp_dd_doc_sections', array('site_id' => $this->site_id));
 	}
 	// End function clear_current_docs()
 	
@@ -130,11 +128,11 @@ class Dev_docs_model {
 	{
 		
 		// A few checks first
-		if (count($headings) == 0)
+		if (count($headings) === 0)
 		{
 			show_error('Headings array is empty for some reason');
 		}
-		if (count($content) == 0)
+		if (count($content) === 0)
 		{
 			show_error('Content array is empty for some reason');
 		}
@@ -144,7 +142,7 @@ class Dev_docs_model {
 		}
 		
 		// Grab the URL helper for the short_name value
-		$this->_EE->load->helper('url');
+		$this->EE->load->helper('url');
 		$rows = array();
 		
 		// Okay, let's do this
@@ -159,7 +157,7 @@ class Dev_docs_model {
 		}
 		
 		// Save our documentation to the database
-		$this->_EE->db->insert_batch('exp_dd_doc_sections', $rows);
+		$this->EE->db->insert_batch('exp_dd_doc_sections', $rows);
 		
 	}
 	// End function save_docs();
@@ -185,14 +183,14 @@ class Dev_docs_model {
 	{
 		if ( ! $short_name)
 		{
-			return $this->_EE->db->limit(1)
-			                     ->get('exp_dd_doc_sections')
-			                     ->row();
+			return $this->EE->db->limit(1)
+			                    ->get('exp_dd_doc_sections')
+			                    ->row();
 		} else {
-			$result = $this->_EE->db->limit(1)
-			                        ->where('short_name', $short_name)
-			                        ->get('exp_dd_doc_sections')
-			                        ->row();
+			$result = $this->EE->db->limit(1)
+			                       ->where('short_name', $short_name)
+			                       ->get('exp_dd_doc_sections')
+			                       ->row();
 			// If we have a short_name value but it doesn't match a page, return
 			// the first page by running this method again with a parameter of FALSE
 			return (count($result) == 0) ? $this->get_page_contents(FALSE) : $result ;
@@ -213,6 +211,7 @@ class Dev_docs_model {
 	 */
 	public function get_submenu($sub_dir = FALSE, $file_name = FALSE)
 	{
+
 		if ( ! $sub_dir && ! $file_name)
 		{
 			return FALSE;
@@ -223,16 +222,16 @@ class Dev_docs_model {
 			return FALSE;
 		}
 		
-		$this->_EE->db->select(array('heading', 'short_name'));
-		$this->_EE->db->where('sub_dir', $sub_dir);
+		$this->EE->db->select(array('heading', 'short_name'));
+		$this->EE->db->where('sub_dir', $sub_dir);
 		// If the directory is empty we can limit by file_name
 		// enabling single files in directories to break out into
 		// multiple files
 		if ($sub_dir == '')
 		{
-			$this->_EE->db->where('file_name', $file_name);
+			$this->EE->db->where('file_name', $file_name);
 		}
-		$pages = $this->_EE->db->get('exp_dd_doc_sections');
+		$pages = $this->EE->db->get('exp_dd_doc_sections');
 		
 		// Bail out if there's only 1 page or none at all
 		if ($pages->num_rows() <= 1)
@@ -241,10 +240,9 @@ class Dev_docs_model {
 		}
 		
 		$pages = $pages->result();
-		$url_base = $this->_EE->config->item('dd:mod_url_base');
-		
+		// exit(var_dump($pages));
 		foreach ($pages as $key => $page) {
-			$pages[$key]->url = $url_base . AMP . 'docs_page=' . $page->short_name;
+			$pages[$key]->url = $this->url_base() . AMP . 'docs_page=' . $page->short_name;
 		}
 		
 		return $pages;
@@ -268,10 +266,11 @@ class Dev_docs_model {
 	 */
 	public function get_pages($display = 'menu')
 	{
+
 		// Get the pages from our table (all pages, even within subdirectories)
-		$pages = $this->_EE->db->select(array('heading', 'file_name', 'short_name', 'sub_dir'))
-		                       ->get('exp_dd_doc_sections')
-		                       ->result_array();
+		$pages = $this->EE->db->select(array('heading', 'file_name', 'short_name', 'sub_dir'))
+		                      ->get('exp_dd_doc_sections')
+		                      ->result_array();
 		
 		if ($display == 'all')
 		{
@@ -327,10 +326,11 @@ class Dev_docs_model {
 			}
 			// End foreach ($pages as $key => $page) {}
 		}
-		// if ($this->get_setting('doc_type') == 'dir') {}
+		// End if ($this->get_setting('doc_type') == 'dir') {}
 		
 		
 		return $pages;
+
 	}
 	// End function get_pages()
 	
@@ -340,10 +340,13 @@ class Dev_docs_model {
 	/**
 	 * Check if docs exist in the DB yet
 	 */
-	public function docs_exist($site_id = '1')
+	public function docs_exist()
 	{
-		return ($this->_EE->db->get_where('exp_dd_doc_sections', array('site_id' => $site_id))->num_rows() === 0) ? FALSE : TRUE ;
+		return ($this->EE->db->get_where('exp_dd_doc_sections', array('site_id' => $this->site_id))->num_rows() === 0)
+		       ? FALSE
+		       : TRUE ;
 	}
+	// End function docs_exist()
 	
 }
 // End class Dev_docs_model

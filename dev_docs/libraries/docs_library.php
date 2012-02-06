@@ -10,8 +10,7 @@
  * @license    MIT  http://opensource.org/licenses/mit-license.php
  */
 
-class Docs_library
-{
+class Docs_library {
 	
 	/**
 	 * @var    array     supported formats
@@ -33,7 +32,7 @@ class Docs_library
 	 */
 	public function __construct()
 	{
-		$this->_EE =& get_instance();
+		$this->EE =& get_instance();
 	}
 	// End function __construct()
 	
@@ -60,7 +59,7 @@ class Docs_library
 		$type = (is_dir($file_path)) ? 'dir' : 'file' ;
 		
 		// save docs type to settings table (file vs directory)
-		$this->_EE->dev_docs_model->save_setting('doc_type', $type);
+		$this->EE->dev_docs_model->save_setting('doc_type', $type);
 		
 		$type_method = 'parse_' . $type;
 		$this->$type_method($file_path);
@@ -90,7 +89,7 @@ class Docs_library
 		// Load CodeIgnite's Directory helper if it hasn't been loaded yet
 		if ( ! function_exists('directory_map'))
 		{
-			$this->_EE->load->helper('directory');
+			$this->EE->load->helper('directory');
 		}
 		
 		$map = directory_map($file_path, $depth_limit - $depth);
@@ -103,13 +102,13 @@ class Docs_library
 			// Create a depth integer based on the current depth plus 1
 			$next_depth = $depth + 1;
 			// Build our path for re-use a few times
-			$new_path = $this->_EE->functions->remove_double_slashes($file_path . '/' . $value);
+			$new_path = $this->EE->functions->remove_double_slashes($file_path . '/' . $value);
 			
 			// Loop through our key=>value stores to see if they are files or directories
 			// If they are directories, we process them in this method recursively with a new depth
 			if (is_array($value))
 			{
-				$this->parse_dir($this->_EE->functions->remove_double_slashes($file_path . '/' . $key), $next_depth, $key);
+				$this->parse_dir($this->EE->functions->remove_double_slashes($file_path . '/' . $key), $next_depth, $key);
 			} elseif(is_dir($new_path)) {
 				$this->parse_dir($new_path, $next_depth, $value);
 			} else {
@@ -196,8 +195,8 @@ class Docs_library
 			return FALSE;
 		}
 		
-		$this->_EE->load->model('dev_docs_model');
-		$this->_EE->dev_docs_model->save_docs($headings, $content, $file_name, $sub_dir);
+		$this->EE->load->model('dev_docs_model');
+		$this->EE->dev_docs_model->save_docs($headings, $content, $file_name, $sub_dir);
 	}
 	// End function parse_file()
 	
@@ -223,7 +222,10 @@ class Docs_library
 	 */
 	public function parse_textile($file_path = FALSE)
 	{
-		require_once('parsers/textile/classTextile.php');
+		if ( ! class_exists('Textile'))
+		{
+			require_once('parsers/textile/classTextile.php');
+		}
 		$textile = new Textile();
 		$docs = file_get_contents($file_path);
 		
@@ -244,7 +246,10 @@ class Docs_library
 	 */
 	public function parse_md($file_path = FALSE)
 	{
-		require_once('parsers/md/markdown.php');
+		if ( ! function_exists('Markdown'))
+		{
+			require_once('parsers/md/markdown.php');
+		}
 		$docs = file_get_contents($file_path);
 		
 		return Markdown($docs);

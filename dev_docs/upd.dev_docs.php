@@ -13,8 +13,9 @@
  */
 
 require_once(PATH_THIRD . 'dev_docs/config/dev_docs.php');
+require_once('focus_base/base.php');
 
-class Dev_docs_upd { 
+class Dev_docs_upd extends Focus_base { 
 	
 	
 	/**
@@ -34,11 +35,11 @@ class Dev_docs_upd {
 	public function __construct() 
 	{ 
 		
-		$this->_EE =& get_instance();
+		$this->EE =& get_instance();
 		
-		$this->_EE->load->add_package_path('dev_docs');
-		$this->_EE->load->model('dev_docs_setup_model','Dev_docs_setup_model');
-		$this->_EE->load->config('dev_docs');
+		$this->EE->load->add_package_path('dev_docs');
+		$this->EE->load->model('dev_docs_setup_model','Dev_docs_setup_model');
+		$this->EE->load->config('dev_docs');
 		
 	}
 	// End function __construct()
@@ -120,11 +121,17 @@ class Dev_docs_upd {
 		// 	)
 		// );
 		$actions = FALSE;
-		
+		$mod_data = array(
+			'module_name'        => 'Dev_docs',
+			'module_version'     => $this->get('version'),
+			'has_cp_backend'     => 'y',
+			'has_publish_fields' => 'n'
+		);
+
 		// Install our module
-		$this->_EE->Dev_docs_setup_model->insert_module($this->_EE->config->item('dd:module_data'), $actions);
+		$this->EE->Dev_docs_setup_model->insert_module($mod_data, $actions);
 		// Build our custom db tables
-		$this->_EE->Dev_docs_setup_model->create_dd_tables();
+		$this->EE->Dev_docs_setup_model->create_dd_tables();
 		
 	}
 	// End function _install_module()
@@ -141,7 +148,16 @@ class Dev_docs_upd {
 	 */
 	private function _install_extension()
 	{
-		$this->_EE->Dev_docs_setup_model->insert_extension($this->_EE->config->item('dd:ext_hook'));
+		$hook_data = array(
+			'class'     => 'Dev_docs_ext',
+			'method'    => 'cp_menu_array',
+			'hook'      => 'cp_menu_array',
+			'settings'  => '',
+			'priority'  => 10,
+			'version'   => $this->version,
+			'enabled'   => 'y'
+		);
+		$this->EE->Dev_docs_setup_model->insert_extension($hook_data);
 	}
 	// End function _install_extension()
 	
@@ -157,8 +173,8 @@ class Dev_docs_upd {
 	 */
 	private function _uninstall_module()
 	{
-		$this->_EE->Dev_docs_setup_model->delete_module();
-		$this->_EE->Dev_docs_setup_model->drop_dd_tables();
+		$this->EE->Dev_docs_setup_model->delete_module();
+		$this->EE->Dev_docs_setup_model->drop_dd_tables();
 	}
 	// End function _uninstall_module()
 	
@@ -174,7 +190,7 @@ class Dev_docs_upd {
 	 */
 	private function _uninstall_extension()
 	{
-		$this->_EE->Dev_docs_setup_model->delete_extension();
+		$this->EE->Dev_docs_setup_model->delete_extension();
 	}
 	// End function _uninstall_extension()
 	

@@ -23,7 +23,15 @@ $lang = array(
 	'Parse the project Developer Documentation within the CP for easy reading',
 	
 	'nav_dev_docs' =>
-	'Dev Docs'
+	'Dev Docs',
+
+	/**
+	 * Additional language lines (prefixed)
+	 */
+	
+	'dd:settings' => 'Module Settings',
+	'dd:overview' => 'Overview',
+	// 'dd:' => '',
 	
 );
 
