@@ -216,7 +216,7 @@ class Dev_docs_mcp extends Focus_base_mcp {
 	{
 		
 		$path_changed = ($docs_path != $this->EE->dev_docs_model->get_setting('docs_path')) ? TRUE : FALSE ;
-		$file_updated = (filemtime($docs_path) !== $this->EE->dev_docs_model->get_setting('timestamp')) ? TRUE : FALSE ;
+		$file_updated = (filemtime($docs_path) !== (int)$this->EE->dev_docs_model->get_setting('timestamp')) ? TRUE : FALSE ;
 		$directory_mode = ($this->EE->dev_docs_model->get_setting('doc_type') == 'dir') ? TRUE : FALSE ;
 		$docs_exist = $this->EE->dev_docs_model->docs_exist();
 		
