@@ -27,6 +27,7 @@ h2. Installation
 * Move the @themes/third_party/dev_docs@ folder into your @themes/third_party@ folder
 * Go to Modules &rarr; Dev Docs &rarr; Install
 * Update the path to your documentation file around line @78@ in the @dev_docs/mcp.dev_docs.php@ file
+* *Note: if you're following along Dev Docs during the beta there are no update scripts run. You must uninstall and reinstall each time you update the code. You won't lose any data.*
 
 
 h2. Setup
