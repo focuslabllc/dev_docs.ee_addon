@@ -142,7 +142,7 @@ class Dev_docs_mcp extends Focus_base_mcp {
 		foreach ($pages as $page) {
 			$menu_array[$page['heading']] = $this->url_base() . AMP . 'docs_page=' . $page['short_name'];
 		}
-		$menu_array[lang('dd:settings')] = $this->url_base() . AMP . 'method=settings';
+		// $menu_array[lang('dd:settings')] = $this->url_base() . AMP . 'method=settings';
 
 		// Some custom styles for better content display
 		$theme_url = $this->EE->config->item('theme_folder_url') . 'third_party/dev_docs/';
