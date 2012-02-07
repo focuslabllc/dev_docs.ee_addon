@@ -26,7 +26,7 @@ h2. Installation
 * Move the @dev_docs@ folder into your @expressionengine/third_party@ folder
 * Move the @themes/third_party/dev_docs@ folder into your @themes/third_party@ folder
 * Go to Modules &rarr; Dev Docs &rarr; Install
-* Update the path to your documentation file around line @78@ in the @dev_docs/mcp.dev_docs.php@ file
+* Create a config value for your documentation path using @$config['dd:docs_path'] = '';@ in your config file
 * *Note: if you're following along Dev Docs during the beta there are no update scripts run. You must uninstall and reinstall each time you update the code. You won't lose any data.*
 
 
@@ -49,33 +49,3 @@ I started getting the styles together but they could still use some love from a 
 File path settings (among other things) will eventually not be hard coded into the add-on
 # *Other goodies*
 Wait and see...
-
-
-h2. Change Log
-
-+*November 27th, 2011: 0.1.6*+
-
-* Added initial support for directories of files
-
-*November 26th, 2011: 0.1.5*
-
-* Fixed bug with constant declaration in config file
-* Added parser for Markdown
-* Added support for HTML file (as opposed to Textile or Markdown)
-* Moved parsers into separate directory @dev_docs/libraries/parsers@
-* Added config override for add-on name in Control Panel
-
-*August 9th, 2011: 0.1.4*
-
-* Added Dev Docs to the CP menu (by way of the cp_menu_array hook)
-* Updated styles a bit
-* Fixed a bug where a page might not load if a short_name is provided but invalid
-
-*August 7th, 2011: 0.1.1*
-
-* Added some initial base style overrides
-* Added new Style sample section/page to sample document
-
-*August 6th, 2011: 0.1.0*
-
-* Initial Release
