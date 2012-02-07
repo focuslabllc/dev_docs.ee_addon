@@ -13,7 +13,7 @@
  * @license    MIT  http://opensource.org/licenses/mit-license.php
  */
 
-require_once(PATH_THIRD . '/' . DD_SHORT_NAME . '/focus_base/model.php');
+require_once(dirname(__FILE__) . '/../focus_base/model.php');
 
 class Dev_docs_setup_model extends Focus_base_model {
 	
@@ -126,7 +126,7 @@ class Dev_docs_setup_model extends Focus_base_model {
 		if ( ! $this->EE->db->table_exists('dd_doc_sections'))
 		{
 			$table1_fields = array(
-				'id'         => array('type' => 'INT', 'constraint' => '10', 'unsigned' => TRUE, 'auto_increment' => TRUE),
+				'id'         => array('type' => 'INT', 'constraint' => '11', 'unsigned' => TRUE, 'auto_increment' => TRUE),
 				'short_name' => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'file_name'  => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'sub_dir'    => array('type' => 'VARCHAR', 'constraint' => '255'),
@@ -144,8 +144,8 @@ class Dev_docs_setup_model extends Focus_base_model {
 			$table2_fields = array(
 				'key'           => array('type' => 'VARCHAR', 'constraint' => '255'),
 				'value'         => array('type' => 'TEXT'),
-				'site_id'       => array('type' => 'INT', 'default' => '1'),
-				'is_serialized' => array('type' => 'INT', 'constraint' => '1', 'default' => '0')
+				'site_id'       => array('type' => 'INT', 'constraint' => '11', 'unsigned' => TRUE, 'default' => '1'),
+				'is_serialized' => array('type' => 'TINYINT', 'constraint' => '1', 'default' => '0')
 			);
 			$this->EE->dbforge->add_field($table2_fields);
 			$this->EE->dbforge->add_key('key', TRUE);
@@ -174,13 +174,15 @@ class Dev_docs_setup_model extends Focus_base_model {
 		$query = $this->EE->db->get_where('modules', array('module_name' => 'Dev_docs'));
 		
 		$this->EE->db->where('module_id', $query->row('module_id'))
-		              ->delete('module_member_groups');
+		             ->delete('module_member_groups');
 		
 		$this->EE->db->where('module_name', 'Dev_docs')
-		              ->delete('modules');
+		             ->delete('modules');
 		
 		$this->EE->db->where('class', 'Dev_docs_mcp')
-		              ->delete('actions');
+		             ->delete('actions');
+		
+		$this->drop_dd_tables();
 	}
 	// End function delete_module()
 	
