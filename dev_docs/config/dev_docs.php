@@ -1,1 +1,1 @@
-<?php require('config.php');
+<?php require(dirname(__FILE__) . '/config.php');
