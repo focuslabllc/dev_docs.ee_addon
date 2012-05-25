@@ -88,9 +88,9 @@ This Channel is for the site's static content. It houses things like About Us an
 h3. Custom Fields
 
 |^.
-|_. Field|_. Short Name|_. Description|_. Options|_. Required|
+|_{width:20%}. Field|_{width:20%}. Short Name|_{width:25%}. Description|_{width:25%}. Options|_{width:5%}. Required|_{width:5%}. Searched|
 |-.
-|Body|page_body|Wygwam w/ full editor||y|
+|Body|page_body|Wygwam w/ full editor||y||
 
 h2. Blog
 
@@ -103,11 +103,11 @@ This Channel is used for the site's blog.
 h3. Custom Fields
 
 |^.
-|_. Field|_. Short Name|_. Description|_. Options|_. Required|
+|_{width:20%}. Field|_{width:20%}. Short Name|_{width:25%}. Description|_{width:25%}. Options|_{width:5%}. Required|_{width:5%}. Searched|
 |-.
-|Detail Image|blog_image|File upload - Blog directory|||
-|Summary|blog_summary|Wygwam - Basic||y|
-|Body|blog_body|Wygwam - Full||y|
+|Detail Image|blog_image|File upload - Blog directory||||
+|Summary|blog_summary|Wygwam - Basic||y||
+|Body|blog_body|Wygwam - Full||y||
 
 
 h1. Member Groups
