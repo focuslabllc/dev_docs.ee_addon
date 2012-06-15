@@ -31,7 +31,7 @@ Across the Channels, Custom Fields and Upload Directories we use the same naming
 * My names would look something like:
 ** Channel short name: "pages"
 ** Custom fields: "page_body", "page_detail_image" ...
-** Upload Directory: "Pages Image Uploads"
+** Upload Directory: "Pages Files"
 
 This convention is used when applicable in Status Groups, Categories & closely related Channels as well.
 
