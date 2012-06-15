@@ -115,7 +115,7 @@ h1. Member Groups
 Member groups control access to various administrative features of the site. Our standard configuration for a content managed site is the Super Admin group used by developers and available to Client when needed and an Editor group with at least one "editor" account with a reduced permission view focused on day to day content and site management. In many cases additional groups are needed. Here are what have been set up for this site.
 
 |^.
-|_. Group|_. Description|
+|_{width:20%}. Group|_{width:80%}. Description|
 |-.
 |Super Admins|Used by developers on the site with full access to everything|
 |Editors|The site editor. Publish/Edit access to all Channels, can edit categories, and all site content. They also have access to Member management so they can add/edit the "guest authors" at will. *NO* access to Templates, other Modules (unless content related), Any admin preferences etc.|
