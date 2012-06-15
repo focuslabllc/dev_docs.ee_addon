@@ -126,7 +126,7 @@ h1. 3rd Party Add-ons
 Whenever possible we like to use what EE offers as part of its core offering; however, there are some wonderful, well-supported add-ons available that offer enhancements that save development time and/or offering improved content/site management functionality to Clients.  Some offerings are commercial, while others open-source. In either case we make sure to evaluate add-on code as well as developers that create and maintain them to do our best to ensure that are supported and high quality.
 
 |^.
-|_. Name|_. Type|_. Usage Description|_. License|
+|_{width:10%}. Name|_{width:10%}. Type|_{width:40%}. Usage Description|_{width:40%}. License|
 |-.
 |"Dev Docs":https://github.com/focuslabllc/dev_docs.ee_addon|Module|Used to power this development documentation. Takes a code managed file with standard textile (or other) markup and renders multiple "pages" of developer documentation within the control panel.|Free|
 |"Low NoSpam":http://gotolow.com/addons/low-nospam|Module|Used to help manage comment and registration spam. Connects to either Typepad or Akismet databases as well as provides helpful shortcuts to manage comments identified by the module for spam.|Free|
