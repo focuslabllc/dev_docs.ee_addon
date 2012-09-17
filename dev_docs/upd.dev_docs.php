@@ -37,6 +37,7 @@ class Dev_docs_upd {
 		$this->_EE =& get_instance();
 		
 		// $this->_EE->load->add_package_path('dev_docs');
+		$this->_EE->load->add_package_path(APPPATH . '../third_party/dev_docs');
 		$this->_EE->load->add_package_path(PATH_THIRD . 'dev_docs');
 		$this->_EE->load->model('dev_docs_setup_model','Dev_docs_setup_model');
 		$this->_EE->load->config('dev_docs');
