@@ -80,11 +80,11 @@ class Dev_docs_setup_model {
 	 * @author    Erik Reagan <erik@focuslabllc.com>
 	 * @return    void
 	 */
-	public function insert_extension($data)
-	{
-		$this->_EE->db->insert('extensions', $data);
-	}
-	// End function insert_extension()
+	// public function insert_extension($data)
+	// {
+	// 	$this->_EE->db->insert('extensions', $data);
+	// }
+	// // End function insert_extension()
 	
 	
 	
@@ -102,12 +102,12 @@ class Dev_docs_setup_model {
 	 * @author    Erik Reagan <erik@focuslabllc.com>
 	 * @return    void
 	 */
-	public function delete_extension()
-	{
-		$this->_EE->db->where('class', 'Dev_docs_ext')
-		              ->delete('extensions');
-	}
-	// End function delete_extension()
+	// public function delete_extension()
+	// {
+	// 	$this->_EE->db->where('class', 'Dev_docs_ext')
+	// 	              ->delete('extensions');
+	// }
+	// // End function delete_extension()
 	
 	
 	

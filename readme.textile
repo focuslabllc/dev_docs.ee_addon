@@ -52,7 +52,13 @@ Wait and see...
 
 h2. Change Log
 
-+*November 26th, 2011: 0.1.5*+
++*September 18, 2012: 0.1.6*+
+
+* Added Accessory for Dev Docs dropdown menu so access could be controlled by group
+* Removed Extension
+* Fixed bug that caused EE udpater to fail
+
+*November 26th, 2011: 0.1.5*
 
 * Fixed bug with constant declaration in config file
 * Added parser for Markdown
