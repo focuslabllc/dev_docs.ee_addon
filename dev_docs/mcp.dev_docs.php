@@ -75,7 +75,7 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/mod_docs.textile';
+		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
 		
 		if ( ! file_exists($filepath))
 		{
