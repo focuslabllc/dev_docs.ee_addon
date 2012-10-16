@@ -64,54 +64,6 @@ class Dev_docs_setup_model {
 	}
 	// End function insert_module()
 	
-	
-	
-	
-	/**
-	 * Insert Extension
-	 * 
-	 * Activate extension
-	 * This is usually in the ext file but I want to guarantee
-	 * that the ext is installed with the module so it's in the
-	 * upd file instead.
-	 * 
-	 * @param     array  Default extension settings
-	 * @access    public
-	 * @author    Erik Reagan <erik@focuslabllc.com>
-	 * @return    void
-	 */
-	// public function insert_extension($data)
-	// {
-	// 	$this->_EE->db->insert('extensions', $data);
-	// }
-	// // End function insert_extension()
-	
-	
-	
-	
-	/**
-	 * Delete Extension
-	 * 
-	 * Activate extension
-	 * This is usually in the ext file but I want to guarantee
-	 * that the ext is installed with the module so it's in the
-	 * upd file instead.
-	 * 
-	 * @param     array  Default extension settings
-	 * @access    public
-	 * @author    Erik Reagan <erik@focuslabllc.com>
-	 * @return    void
-	 */
-	// public function delete_extension()
-	// {
-	// 	$this->_EE->db->where('class', 'Dev_docs_ext')
-	// 	              ->delete('extensions');
-	// }
-	// // End function delete_extension()
-	
-	
-	
-	
 	/**
 	 * Create tables
 	 * 

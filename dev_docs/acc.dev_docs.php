@@ -6,7 +6,7 @@
  * Hook into the CP Menu and add a Dev Docs flyout
  *
  * @package    Dev Docs
- * @author     Minds On Design Lab, Inc. <dev@focuslabllc.com>
+ * @author     Minds On Design Lab, Inc. <dev@mod-lab.com>
  * @copyright  Copyright (c) 2012 Minds On Design Lab, Inc.
  * @link       https://github.com/Minds-On-Design-Lab/dev_docs.ee_addon
  * @license    MIT  http://opensource.org/licenses/mit-license.php

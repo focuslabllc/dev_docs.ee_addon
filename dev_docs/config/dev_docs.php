@@ -62,19 +62,5 @@ $config['dd:module_data'] = array(
 $config['dd:default_settings'] = array();
 
 
-/**
- * @var    array   Extension hook setup (multi-dimensional for multiple hooks)
- */
-$config['dd:ext_hook'] = array(
-	'class'     => 'Dev_docs_ext',
-	'method'    => 'cp_menu_array',
-	'hook'      => 'cp_menu_array',
-	'settings'  => serialize($config['dd:default_settings']),
-	'priority'  => 10,
-	'version'   => $config['dd:version'],
-	'enabled'   => 'y'
-);
-
-
 /* End of file dev_docs.php */
 /* Location: ./system/expressionengine/third_party/dev_docs/config/dev_docs.php */
