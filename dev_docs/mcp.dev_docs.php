@@ -70,12 +70,17 @@ class Dev_docs_mcp {
 	{
 		
 		// Start off with a consistent breadcrumb addition
-		$this->_EE->cp->set_breadcrumb($this->_url_base, lang('dev_docs_module_name'));
+		$name = ($this->_EE->config->item('dev_docs_cp_name')) ? $this->_EE->config->item('dev_docs_cp_name') : lang('dev_docs_module_name') ;
+		$this->_EE->cp->set_breadcrumb($this->_url_base, $name);
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
-		
+		$filepath = APPPATH . 'third_party/dev_docs/views/mod_docs.textile';
+		if ( ! file_exists($filepath))
+		{
+			// check the new third party config path
+			$filepath = $this->_EE->config->item('third_party_path').'dev_docs/views/mod_docs.textile';
+		}
 		if ( ! file_exists($filepath))
 		{
 			show_error('The developer documentation file (' . $filepath . ') does not exist.
