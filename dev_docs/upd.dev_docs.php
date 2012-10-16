@@ -143,7 +143,7 @@ class Dev_docs_upd {
 		$this->_EE->Dev_docs_setup_model->drop_dd_tables();
 	}
 	// End function _uninstall_module()
-	
+}
 // End class Dev_docs_upd
 
 /* End of file upd.dev_docs.php */
