@@ -49,6 +49,16 @@ class Dev_docs_mcp {
 		$this->_EE->load->library('Docs_library');
 		
 		$this->_url_base = $this->_EE->config->item('dd:mod_url_base');
+
+		// adding in a var for upload path setting from system/config.php
+        if($this->_EE->config->item('dd:docs_path') !== false)
+        {
+            $this->dd_docs_path = $this->_EE->config->item('dd:docs_path');
+        }
+        else
+        {
+            $this->dd_docs_path = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
+        }
 		
 	}
 	// End function __construct()
@@ -74,7 +84,7 @@ class Dev_docs_mcp {
 		
 		// Grab our developer documentation. Expects a textile formatted document
 		// but will technically read any real file.
-		$filepath = APPPATH . 'third_party/dev_docs/views/sample_docs.textile';
+		$filepath = $this->dd_docs_path;
 		
 		if ( ! file_exists($filepath))
 		{
