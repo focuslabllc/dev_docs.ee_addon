@@ -102,13 +102,13 @@ class Docs_library {
 			// Create a depth integer based on the current depth plus 1
 			$next_depth = $depth + 1;
 			// Build our path for re-use a few times
-			$new_path = $this->EE->functions->remove_double_slashes($file_path . '/' . $value);
-			
+			$new_path = reduce_double_slashes($file_path . '/' . $value);
+
 			// Loop through our key=>value stores to see if they are files or directories
 			// If they are directories, we process them in this method recursively with a new depth
 			if (is_array($value))
 			{
-				$this->parse_dir($this->EE->functions->remove_double_slashes($file_path . '/' . $key), $next_depth, $key);
+				$this->parse_dir(reduce_double_slashes($file_path . '/' . $key), $next_depth, $key);
 			} elseif(is_dir($new_path)) {
 				$this->parse_dir($new_path, $next_depth, $value);
 			} else {

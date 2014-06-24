@@ -164,8 +164,8 @@ class Dev_docs_mcp extends Focus_base_mcp {
 				$this->EE->cp->set_breadcrumb($submenu[0]->url, $submenu[0]->heading);
 			}
 		}
-		
-		$this->EE->cp->set_variable('cp_page_title', $heading);
+
+		$this->EE->view->cp_page_title = $heading;
 		$this->EE->cp->set_right_nav($menu_array);
 
 	}
