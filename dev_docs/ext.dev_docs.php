@@ -84,11 +84,39 @@ class Dev_docs_ext extends Focus_base_ext {
 			$menu = $this->EE->extensions->last_call;
 		}
 		
-		// Query to get our menu titles
-		$pages = $this->EE->dev_docs_model->get_pages();
-		foreach ($pages as $page) {
-			$this->EE->lang->language['nav_'.$page['short_name']] = $page['heading'];
-			$menu['dev_docs'][$page['short_name']] = $this->url_base() . AMP . 'docs_page=' . $page['short_name'];
+		
+		$add_docs_menu = TRUE;
+		
+		if ($this->EE->session->userdata('group_id') != 1)
+		{
+			if ( ! $this->EE->session->userdata('assigned_modules') || ! $this->EE->cp->allowed_group('can_access_addons', 'can_access_modules'))
+			{
+				$add_docs_menu = FALSE;
+			}
+			else
+			{
+				$module_id = $this->EE->db->select('module_id')
+							  ->where('module_name', 'Dev_docs')
+							  ->get('modules')
+							  ->row('module_id');
+				
+				$assigned_modules = $this->EE->session->userdata('assigned_modules') ? $this->EE->session->userdata('assigned_modules') : array();
+				
+				if ( ! $module_id || ! array_key_exists($module_id, $assigned_modules))
+				{
+					$add_docs_menu = FALSE;
+				}
+			}
+		}
+		
+		if ($add_docs_menu === TRUE)
+		{
+			// Query to get our menu titles
+			$pages = $this->EE->dev_docs_model->get_pages();
+			foreach ($pages as $page) {
+				$this->EE->lang->language['nav_'.$page['short_name']] = $page['heading'];
+				$menu['dev_docs'][$page['short_name']] = $this->url_base() . AMP . 'docs_page=' . $page['short_name'];
+			}
 		}
 		
 		return $menu;
