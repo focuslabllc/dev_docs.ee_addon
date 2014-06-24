@@ -1,3 +1,0 @@
-# NSM Transplant
-
-We are using [NSM Transplant](http://expressionengine-addons.com/nsm-transplant) to cut down on queries across our templates. It allows us to occasionally save pieces of data from within a Channel Entries loop and use it outside that loop later in the template. You can find more on that here: <http://expressionengine-addons.com/nsm-transplant>. This only affects our templates, not the back-end.

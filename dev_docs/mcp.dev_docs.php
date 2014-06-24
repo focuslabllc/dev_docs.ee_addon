@@ -221,7 +221,7 @@ class Dev_docs_mcp extends Focus_base_mcp {
 		$docs_exist = $this->EE->dev_docs_model->docs_exist();
 		
 		// @todo - decide how to cache directory mode files
-		if ( ! $docs_exist OR ($directory_mode === FALSE && ($path_changed OR $file_updated)) )
+		if (TRUE OR ! $docs_exist OR ($directory_mode === FALSE && ($path_changed OR $file_updated)) )
 		{
 			// delete doc rows
 			$this->EE->dev_docs_model->clear_current_docs();

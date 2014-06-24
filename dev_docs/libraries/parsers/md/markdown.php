@@ -2396,11 +2396,23 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 			
 			# Split row by cell.
 			$row_cells = preg_split('/ *[|] */', $row, $col_count);
-			$row_cells = array_pad($row_cells, $col_count, '');
-			
+			if (preg_match("/\+(\d+)\.\s/", $row) == FALSE)
+			{
+				$row_cells = array_pad($row_cells, $col_count, '');
+			}
+	
 			$text .= "<tr>\n";
 			foreach ($row_cells as $n => $cell)
-				$text .= "  <td$attr[$n]>".$this->runSpanGamut(trim($cell))."</td>\n";
+			{
+				$actual_cell = $n+1;
+				if (preg_match("/\+(\d+)\.\s/", $cell, $colspan))
+				{
+					$cell = preg_replace("/\+(\d+)\.\s/", "" ,$cell);
+					$skip_until = $actual_cell + ((int) $colspan[1]);
+				}
+				$colattr[$n] = (isset($colspan[1])) ? ' colspan="' . $colspan[1] . '"' : '';
+				$text .= "  <td$attr[$n]$colattr[$n]>".$this->runSpanGamut(trim($cell))."</td>\n";
+			}
 			$text .= "</tr>\n";
 		}
 		$text .= "</tbody>\n";
