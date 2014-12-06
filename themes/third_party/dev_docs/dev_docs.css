@@ -3,7 +3,7 @@
  */
 
 
-#dev_docs * { font-family: "Helvetica Neue"; }
+#dev_docs * { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 /*******************************
     Headings
@@ -31,68 +31,12 @@
 
 
 /*******************************
-    Submenu (for directory docs)
-*******************************/
-
-#dev_docs_submenu {
-	float: right;
-	width: 200px;
-	border: 1px solid #DBE0E9;
-	border-bottom-color: #DBE0E9;
-	border-right-color: #DBE0E9;
-	padding: 20px 20px 10px 20px;
-	margin: 0 0 25px 25px;
-	background: #fff;
-	box-shadow: 0px 0px 10px rgba(0,0,0,.1);
-	-webkit-border-radius: 3px;
-	-moz-border-radius:    3px;
-	border-radius:         3px;
-}
-
-#dev_docs_submenu h3 {
-	font-size: 15px;
-	color: #425561;
-	width: 200px;
-	margin: -20px 0 18px -20px;
-	padding: 10px 20px;
-	font-weight: normal;
-	text-shadow: 0px 1px 0px #fff;
-	background-image: -webkit-gradient(linear, left top, left bottom, from(#FBFDFF), to(#EBF0F3));;
-}
-
-#dev_docs_submenu ul {
-	
-}
-
-#dev_docs_submenu ul li {
-	color: #6A767D;
-	border-top: 1px solid #ECF1F4;
-	padding: 12px 0;
-}
-#dev_docs_submenu ul li:first-child {
-	padding-top: 0px;
-	border-top: none;
-}
-
-#dev_docs_submenu ul li.current {
-	color: #6A767D;
-}
-
-#dev_docs_submenu li a {
-	display: block;
-/*	color: #6A767D;*/
-}
-
-/* End Submenu */
-
-
-/*******************************
     Other block level elements
 *******************************/
 
 #dev_docs p { font-size: 1.1em; line-height: 1.3em; }
 
-#dev_docs p.notice, #dev_docs p.note {
+#dev_docs p.notice {
 	color: #000;
 	margin: 20px 10px;
 	background: #fcfdbe;
@@ -104,9 +48,6 @@
 	box-shadow: 1px 1px 0 #fff;
 	box-shadow: 0 -1px 0 #8d8d74;
 }
-#dev_docs > p.notice, #dev_docs > p.note { margin-top: 10px; }
-#dev_docs .notice code, #dev_docs .notice pre,
-	#dev_docs .note code, #dev_docs .note pre { background-color: transparent; }
 
 #dev_docs blockquote {
 	margin: 20px 0;
@@ -124,11 +65,6 @@
 #dev_docs li { margin: 2px 0; }
 #dev_docs ol ol, #dev_docs ul ul { margin: 5px 5px 5px 15px; }
 #dev_docs ul { list-style: disc; }
-
-#dev_docs dl { margin: 10px 0 20px 20px; }
-#dev_docs dl dt { margin: 20px 0 10px; font-weight: bold; }
-#dev_docs dl dt:first-child { margin-top: 0; }
-#dev_docs dl dd { margin-left: 20px; }
 
 /* End Other block level elements */
 
@@ -150,19 +86,15 @@
 #dev_docs table {
 	position: relative;
 	width: 100%;
-	margin: 15px 0;
 	font-size: 1em;
 	border-spacing: 0px;
 	border-collapse: collapse;
 }
-#dev_docs table thead, #dev_docs table th {
+#dev_docs table thead {
 	padding-bottom: 6px;
 	background: #93A5B1;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(#ABB7C3), to(#93A5B1));
-}
-#dev_docs table thead td {
-	border: 1px solid #C3C9D1;
-	border-top-color: #E1EDF8;
+	box-shadow: 0 -11px 0 red;
 }
 #dev_docs table th {
 	padding: 6px;
@@ -174,8 +106,8 @@
 	font-weight: bold;
 	border: 1px solid #C3C9D1;
 	border-top-color: #E1EDF8;
+/*	box-shadow: 0 -1px 0 #C3C9D1;*/
 }
-#dev_docs table th code { background: inherit; text-shadow: 0 1px 0 #6E6E6E; }
 #dev_docs table td {
 	vertical-align: middle;
 	padding: 8px 6px;

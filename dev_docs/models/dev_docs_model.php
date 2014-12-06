@@ -269,6 +269,7 @@ class Dev_docs_model extends Focus_base_model {
 
 		// Get the pages from our table (all pages, even within subdirectories)
 		$pages = $this->EE->db->select(array('heading', 'file_name', 'short_name', 'sub_dir'))
+		                      ->order_by('id', 'asc')
 		                      ->get('exp_dd_doc_sections')
 		                      ->result_array();
 		

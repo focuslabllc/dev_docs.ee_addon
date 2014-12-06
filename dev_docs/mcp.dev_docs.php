@@ -164,8 +164,8 @@ class Dev_docs_mcp extends Focus_base_mcp {
 				$this->EE->cp->set_breadcrumb($submenu[0]->url, $submenu[0]->heading);
 			}
 		}
-		
-		$this->EE->cp->set_variable('cp_page_title', $heading);
+
+		$this->EE->view->cp_page_title = $heading;
 		$this->EE->cp->set_right_nav($menu_array);
 
 	}
@@ -221,7 +221,7 @@ class Dev_docs_mcp extends Focus_base_mcp {
 		$docs_exist = $this->EE->dev_docs_model->docs_exist();
 		
 		// @todo - decide how to cache directory mode files
-		if ( ! $docs_exist OR ($directory_mode === FALSE && ($path_changed OR $file_updated)) )
+		if (TRUE OR ! $docs_exist OR ($directory_mode === FALSE && ($path_changed OR $file_updated)) )
 		{
 			// delete doc rows
 			$this->EE->dev_docs_model->clear_current_docs();
